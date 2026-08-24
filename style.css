@@ -258,7 +258,7 @@ body {
 .hero-trust {
     display: flex;
     gap: 20px;
-    font-size: 12px;
+    font-size: 14px;
     color: var(--text-muted);
 }
 
@@ -336,7 +336,7 @@ body {
 }
 
 .mockup-btn {
-    font-size: 10.5px;
+    font-size: 12px;
     font-weight: 500;
     padding: 6px 10px;
     border-radius: 14px;
