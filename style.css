@@ -1,4 +1,4 @@
-/* --- Root Variables & Fonts --- */
+/* --- 1. Global Variables & Reset --- */
 :root {
     --bg-main: #FBF9F5;
     --bg-surface: #FFFFFF;
@@ -49,7 +49,7 @@ body {
     padding: 0 24px;
 }
 
-/* --- Navigation --- */
+/* --- 2. Navigation --- */
 .navbar {
     position: sticky;
     top: 0;
@@ -124,7 +124,7 @@ body {
     background: var(--gold-primary);
 }
 
-/* --- Buttons --- */
+/* --- 3. Buttons --- */
 .btn {
     display: inline-block;
     padding: 14px 28px;
@@ -134,6 +134,8 @@ body {
     text-decoration: none;
     text-align: center;
     cursor: pointer;
+    border: none;
+    font-family: inherit;
     transition: all 0.25s ease;
 }
 
@@ -162,7 +164,7 @@ body {
     width: 100%;
 }
 
-/* --- Section Headers --- */
+/* --- 4. Section Headers --- */
 .section {
     padding: 100px 0;
 }
@@ -197,7 +199,7 @@ body {
     color: var(--text-sub);
 }
 
-/* --- 1. Hero Section --- */
+/* --- 5. Hero Layout --- */
 .hero {
     padding: 80px 0 100px;
     background: radial-gradient(circle at 80% 20%, #F5EFE6 0%, var(--bg-main) 70%);
@@ -257,7 +259,6 @@ body {
     color: var(--text-muted);
 }
 
-/* Phone Mockup */
 .hero-mockup-wrap {
     flex: 1;
     display: flex;
@@ -347,7 +348,7 @@ body {
     line-height: 1.6;
 }
 
-/* --- 2. Features Grid --- */
+/* --- 6. Features Grid --- */
 .features-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -385,7 +386,7 @@ body {
     line-height: 1.7;
 }
 
-/* --- 3. Showcase / Experience --- */
+/* --- 7. Showcase Layout --- */
 .showcase-tabs {
     display: flex;
     justify-content: center;
@@ -525,7 +526,13 @@ body {
     font-weight: 700;
 }
 
-/* --- 4. Pricing Grid --- */
+.showcase-action-btn {
+    margin-top: 24px;
+    display: inline-block;
+    align-self: flex-start;
+}
+
+/* --- 8. Pricing Layout --- */
 .pricing-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -601,7 +608,7 @@ body {
     margin-bottom: 12px;
 }
 
-/* --- 5. FAQ Section --- */
+/* --- 9. FAQ Layout --- */
 .faq-container {
     max-width: 760px;
 }
@@ -632,7 +639,7 @@ body {
     line-height: 1.7;
 }
 
-/* --- Footer --- */
+/* --- 10. Footer Layout --- */
 .footer {
     border-top: 1px solid var(--border-light);
     padding: 50px 0;
@@ -656,7 +663,7 @@ body {
     color: var(--text-muted);
 }
 
-/* --- Responsive Media Queries --- */
+/* --- 11. Responsive Media Queries --- */
 @media (max-width: 992px) {
     .hero-container {
         flex-direction: column;
