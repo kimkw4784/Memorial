@@ -273,19 +273,22 @@
     <!-- --- 8. Script Logic --- -->
     <script>
         /* Toss Payments Initialization */
-        const clientKey = 'test_ck_D5GePWvyJqK4W7Pq0nk3N7zmOJqb';
+        const clientKey = 'test_ck_EP59LybZ8BdvYgp4z1N86GYo7pRe';
         const tossPayments = TossPayments(clientKey);
 
         function payService(planCode, amount, orderName) {
             const orderId = 'MEMORIAL_' + planCode + '_' + new Date().getTime();
+
+            const baseUrl = window.location.href.split('?')[0].split('#')[0].replace('/index.html', '');
+            const cleanBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
 
             tossPayments.requestPayment('카드', {
                 amount: amount,
                 orderId: orderId,
                 orderName: orderName,
                 customerName: '신청자',
-                successUrl: window.location.origin + '/success.html',
-                failUrl: window.location.origin + '/fail.html',
+                successUrl: cleanBaseUrl + '/index.html',
+                failUrl: cleanBaseUrl + '/index.html',
             }).catch(function (error) {
                 if (error.code !== 'USER_CANCEL') {
                     alert('결제 오류: ' + error.message);
