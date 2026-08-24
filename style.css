@@ -4,24 +4,24 @@
     --bg-surface: #FFFFFF;
     --bg-subtle: #F3EFEA;
 
-    --text-main: #22201D;
-    --text-sub: #5C5750;
+    --text-main: #1D1A16;
+    --text-sub: #544F48;
     --text-muted: #9E988F;
 
     --gold-primary: #B59567;
     --gold-light: #EFE9DF;
     --gold-dark: #8C6F45;
 
-    --border-light: rgba(34, 32, 29, 0.08);
+    --border-light: rgba(29, 26, 22, 0.08);
     --border-focus: #B59567;
 
     --font-serif-en: 'Cormorant Garamond', serif;
-    --font-serif-kr: 'Maru Buri', serif;
+    --font-serif-kr: 'Noto Serif KR', serif;
     --font-sans: 'Pretendard', -apple-system, sans-serif;
 
     --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
     --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 20px 40px rgba(34, 32, 29, 0.08);
+    --shadow-lg: 0 20px 40px rgba(29, 26, 22, 0.08);
 }
 
 * {
@@ -87,9 +87,11 @@ body {
 .logo-kr {
     font-family: var(--font-serif-kr);
     font-size: 13px;
+    font-weight: 400;
     color: var(--text-muted);
     border-left: 1px solid var(--border-light);
     padding-left: 8px;
+    letter-spacing: -0.2px;
 }
 
 .nav-links {
@@ -187,11 +189,12 @@ body {
 
 .section-heading {
     font-family: var(--font-serif-kr);
-    font-size: 32px;
-    font-weight: 700;
+    font-size: 30px;
+    font-weight: 600;
     color: var(--text-main);
-    letter-spacing: -0.5px;
+    letter-spacing: -0.6px;
     margin-bottom: 12px;
+    line-height: 1.4;
 }
 
 .section-sub {
@@ -228,10 +231,10 @@ body {
 
 .hero-title {
     font-family: var(--font-serif-kr);
-    font-size: 44px;
+    font-size: 42px;
     line-height: 1.35;
-    font-weight: 700;
-    letter-spacing: -1px;
+    font-weight: 600;
+    letter-spacing: -1.2px;
     margin-bottom: 20px;
 }
 
@@ -313,6 +316,8 @@ body {
 .mockup-name {
     font-family: var(--font-serif-kr);
     font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
     margin-bottom: 2px;
 }
 
@@ -340,12 +345,14 @@ body {
 
 .mockup-quote {
     font-family: var(--font-serif-kr);
-    font-size: 11px;
+    font-size: 11.5px;
+    font-weight: 400;
     color: var(--text-sub);
     background: #FFF;
     padding: 10px;
     border-radius: 6px;
-    line-height: 1.6;
+    line-height: 1.65;
+    letter-spacing: -0.2px;
 }
 
 /* --- 6. Features Grid --- */
@@ -376,7 +383,8 @@ body {
 .feature-title {
     font-family: var(--font-serif-kr);
     font-size: 17px;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: -0.4px;
     margin-bottom: 10px;
 }
 
@@ -467,6 +475,8 @@ body {
 .preview-name {
     font-family: var(--font-serif-kr);
     font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
     margin-bottom: 4px;
 }
 
@@ -502,7 +512,8 @@ body {
 .showcase-desc h4 {
     font-family: var(--font-serif-kr);
     font-size: 22px;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: -0.5px;
     margin-bottom: 16px;
 }
 
@@ -571,6 +582,8 @@ body {
 .pricing-header h3 {
     font-family: var(--font-serif-kr);
     font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
     margin-bottom: 6px;
 }
 
@@ -629,7 +642,8 @@ body {
 .faq-q {
     font-family: var(--font-serif-kr);
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: -0.3px;
     margin-bottom: 8px;
 }
 
