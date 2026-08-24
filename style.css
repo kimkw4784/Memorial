@@ -287,11 +287,12 @@ body {
 
 .mockup-badge {
     display: inline-block;
+    font-family: var(--font-serif-en);
     font-size: 10px;
-    font-weight: 700;
+    letter-spacing: 2px;
     color: var(--gold-primary);
     background: #FFF;
-    padding: 3px 8px;
+    padding: 4px 10px;
     border-radius: 12px;
     border: 1px solid var(--gold-light);
     margin-bottom: 14px;
@@ -335,12 +336,23 @@ body {
 }
 
 .mockup-btn {
-    font-size: 10px;
+    font-size: 10.5px;
+    font-weight: 500;
     padding: 6px 10px;
     border-radius: 14px;
     border: 1px solid var(--border-light);
     background: #FFF;
+    color: var(--text-sub);
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.svg-icon {
+    width: 12px;
+    height: 12px;
+    fill: var(--gold-primary);
 }
 
 .mockup-quote {
@@ -376,8 +388,20 @@ body {
 }
 
 .feature-icon {
-    font-size: 28px;
-    margin-bottom: 18px;
+    width: 44px;
+    height: 44px;
+    background: var(--bg-subtle);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.feature-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: var(--gold-primary);
 }
 
 .feature-title {
@@ -403,12 +427,13 @@ body {
 }
 
 .tab-btn {
-    padding: 12px 24px;
+    padding: 12px 28px;
     background: var(--bg-surface);
     border: 1px solid var(--border-light);
     border-radius: 30px;
     font-size: 14px;
     font-weight: 600;
+    color: var(--text-sub);
     cursor: pointer;
     transition: all 0.2s;
 }
@@ -446,10 +471,12 @@ body {
 }
 
 .preview-badge {
+    font-family: var(--font-serif-en);
     font-size: 11px;
+    letter-spacing: 2px;
     color: var(--gold-primary);
     background: #FFF;
-    padding: 4px 10px;
+    padding: 4px 12px;
     border-radius: 12px;
     border: 1px solid var(--gold-light);
     display: inline-block;
@@ -494,10 +521,12 @@ body {
 
 .mini-btn {
     font-size: 11px;
+    font-weight: 500;
     padding: 6px 12px;
     border-radius: 16px;
     border: 1px solid var(--border-light);
     background: #FFF;
+    color: var(--text-sub);
     cursor: pointer;
 }
 
@@ -526,15 +555,14 @@ body {
     color: var(--text-sub);
     margin-bottom: 10px;
     position: relative;
-    padding-left: 20px;
+    padding-left: 18px;
 }
 
 .check-list li::before {
-    content: "✓";
+    content: "—";
     position: absolute;
     left: 0;
     color: var(--gold-primary);
-    font-weight: 700;
 }
 
 .showcase-action-btn {
@@ -573,8 +601,10 @@ body {
     transform: translateX(-50%);
     background: var(--gold-primary);
     color: #FFF;
+    font-family: var(--font-serif-en);
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: 1.5px;
     padding: 4px 14px;
     border-radius: 20px;
 }
@@ -619,6 +649,15 @@ body {
     font-size: 13.5px;
     color: var(--text-sub);
     margin-bottom: 12px;
+    position: relative;
+    padding-left: 16px;
+}
+
+.pricing-features li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--gold-primary);
 }
 
 /* --- 9. FAQ Layout --- */
@@ -645,6 +684,7 @@ body {
     font-weight: 600;
     letter-spacing: -0.3px;
     margin-bottom: 8px;
+    color: var(--text-main);
 }
 
 .faq-a {
