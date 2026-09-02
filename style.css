@@ -1054,7 +1054,7 @@ body {
 .pricing-header p {
     font-size: 12px;
     color: var(--text-muted);
-    margin-bottom: 12px;
+    margin-bottom: 24px;
 }
 
 .price-wrap {
