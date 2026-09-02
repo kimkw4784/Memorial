@@ -6,11 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MEMORIAL | 시간을 넘어 영원히 기억되는 공간</title>
 
-    <!-- Pretendard & Cormorant Garamond & Noto Serif KR -->
     <link rel="stylesheet" as="style" crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+KR:wght@300;400;600;700&display=swap"
         rel="stylesheet">
@@ -20,7 +19,6 @@
 
 <body>
 
-    <!-- --- 1. Navigation --- -->
     <header class="navbar">
         <div class="nav-container">
             <a href="#" class="logo">
@@ -29,6 +27,7 @@
             </a>
             <nav class="nav-links">
                 <a href="#features">특장점</a>
+                <a href="#architecture">아카이브 구성</a>
                 <a href="#showcase">체험하기</a>
                 <a href="#pricing">이용 요금</a>
                 <a href="#faq">FAQ</a>
@@ -37,7 +36,6 @@
         </div>
     </header>
 
-    <!-- --- 2. Hero Section --- -->
     <section class="hero">
         <div class="container hero-container">
             <div class="hero-content">
@@ -52,12 +50,12 @@
                 </p>
                 <div class="hero-btns">
                     <a href="#pricing" class="btn btn-primary">추모관 개설하기</a>
-                    <a href="#showcase" class="btn btn-secondary">샘플 둘러보기</a>
+                    <a href="memorial-sample.html" class="btn btn-secondary">샘플 둘러보기</a>
                 </div>
                 <div class="hero-trust">
-                    <span>🕊️ 1회 결제로 평생 보존</span>
-                    <span>🔒 가족 전용 비공개 링크</span>
-                    <span>📦 실물 NFC 명판 연계</span>
+                    <span class="trust-item"><span class="trust-check">✓</span> 1회 결제로 평생 보존</span>
+                    <span class="trust-item"><span class="trust-check">✓</span> 가족 전용 비공개 링크</span>
+                    <span class="trust-item"><span class="trust-check">✓</span> 앱 설치 없는 간편 접속</span>
                 </div>
             </div>
 
@@ -65,20 +63,35 @@
                 <div class="phone-mockup">
                     <div class="mockup-screen">
                         <div class="mockup-header">
-                            <span class="mockup-badge">🌈 무지개별에서 뛰노는 중</span>
-                            <div class="mockup-img">
-                                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500&auto=format&fit=crop&q=80"
-                                    alt="반려동물 샘플">
+                            <span class="mockup-badge">IN LOVING MEMORY</span>
+                            <div class="mockup-img-frame">
+                                <div class="mockup-img">
+                                    <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500&auto=format&fit=crop&q=80"
+                                        alt="반려동물 샘플">
+                                </div>
                             </div>
-                            <h3 class="mockup-name">코코 (Coco)</h3>
-                            <p class="mockup-dates">2013 — 2026 · 함께한 4,820일</p>
+                            <h3 class="mockup-name">코코 <span class="mockup-name-en">Coco</span></h3>
+                            <div class="mockup-dates">
+                                <span>2013.05.10 — 2026.02.15</span>
+                                <span class="dates-dday">함께한 4,820일의 여정</span>
+                            </div>
                         </div>
+
                         <div class="mockup-interactive">
-                            <button class="mockup-btn" type="button">🍖 간식 주기 (48)</button>
-                            <button class="mockup-btn" type="button">🕯️ 촛불 켜기 (92)</button>
+                            <button class="mockup-btn" type="button" onclick="addCount(this)">
+                                <span class="btn-dot"></span>
+                                마음의 선물 <strong class="cnt">48</strong>
+                            </button>
+                            <button class="mockup-btn" type="button" onclick="addCount(this)">
+                                <span class="btn-dot"></span>
+                                등불 켜기 <strong class="cnt">92</strong>
+                            </button>
                         </div>
+
                         <div class="mockup-quote">
-                            "그곳에선 아프지 말고 좋아하는 산책 실컷 하고 있어. 사랑해."
+                            <span class="quote-mark">“</span>
+                            그곳에선 아프지 말고 좋아하는 산책 실컷 하고 있어. 영원히 사랑해.
+                            <span class="quote-mark">”</span>
                         </div>
                     </div>
                 </div>
@@ -86,7 +99,6 @@
         </div>
     </section>
 
-    <!-- --- 3. Features Section --- -->
     <section id="features" class="section features-section">
         <div class="container">
             <div class="section-title-wrap">
@@ -96,79 +108,373 @@
             </div>
 
             <div class="features-grid">
+                <!-- 01 -->
                 <div class="feature-card">
-                    <div class="feature-icon">🌿</div>
-                    <h3 class="feature-title">광고와 알고리즘 없는 침묵의 공간</h3>
-                    <p class="feature-desc">자극적인 피드와 상업 광고 없이, 오직 고인과 아이만을 위한 온전한 추모와 회고의 공간을 제공합니다.</p>
+                    <div class="feature-card-header">
+                        <span class="feature-num">01</span>
+                        <div class="feature-badge">
+                            <svg viewBox="0 0 24 24" class="feature-svg">
+                                <path
+                                    d="M12 2c1.1 0 2 .9 2 2 0 1.6-2 4-2 4s-2-2.4-2-4c0-1.1.9-2 2-2zm-4 9h8v11H8V11zm2 2v7h4v-7h-4z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="feature-title">광고 없는 침묵의 공간</h3>
+                    <p class="feature-desc">상업적 피드와 광고의 방해 없이<br>온전한 추모와 회고에 몰입합니다.</p>
                 </div>
 
+                <!-- 02 -->
                 <div class="feature-card">
-                    <div class="feature-icon">🔗</div>
-                    <h3 class="feature-title">가족 간편 사진 취합 링크</h3>
-                    <p class="feature-desc">친척이나 지인들이 회원가입 없이 링크 하나로 폰에 있는 옛날 사진과 사연을 간편하게 보낼 수 있습니다.</p>
+                    <div class="feature-card-header">
+                        <span class="feature-num">02</span>
+                        <div class="feature-badge">
+                            <svg viewBox="0 0 24 24" class="feature-svg">
+                                <path
+                                    d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="feature-title">가족 사진 취합 링크</h3>
+                    <p class="feature-desc">회원가입 없이 링크 전달 하나로<br>지인들의 옛 사진과 사연을 모읍니다.</p>
                 </div>
 
+                <!-- 03 -->
                 <div class="feature-card">
-                    <div class="feature-icon">✨</div>
-                    <h3 class="feature-title">앱 설치 없는 원클릭 웹 뷰어</h3>
-                    <p class="feature-desc">어르신들도 부담 없이 카카오톡 링크 터치 한 번으로 고화질 사진을 감상하고 편지를 남길 수 있습니다.</p>
+                    <div class="feature-card-header">
+                        <span class="feature-num">03</span>
+                        <div class="feature-badge">
+                            <svg viewBox="0 0 24 24" class="feature-svg">
+                                <path
+                                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="feature-title">무설치 원클릭 뷰어</h3>
+                    <p class="feature-desc">앱 설치의 번거로움 없이 터치 한 번으로<br>누구나 편안하게 둘러봅니다.</p>
                 </div>
 
+                <!-- 04 -->
                 <div class="feature-card">
-                    <div class="feature-icon">🏛️</div>
-                    <h3 class="feature-title">실물 NFC 명판 & 포토북 연계</h3>
-                    <p class="feature-desc">납골당, 유골함, 위패에 부착할 수 있는 프리미엄 금속 명판에 폰을 대면 추모관이 즉시 열립니다.</p>
+                    <div class="feature-card-header">
+                        <span class="feature-num">04</span>
+                        <div class="feature-badge">
+                            <svg viewBox="0 0 24 24" class="feature-svg">
+                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="feature-title">평생 보존 & 백업 소장</h3>
+                    <p class="feature-desc">추가 구독료 없이 영구 보존되며<br>언제든 PDF 전자책으로 저장합니다.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- --- 4. Showcase Section --- -->
+    <section id="architecture" class="section preview-gallery-section">
+        <div class="container">
+            <div class="section-title-wrap">
+                <span class="section-tag">INSIDE THE MEMORIAL</span>
+                <h2 class="section-heading">추모관은 이렇게 구성되어 제공됩니다</h2>
+                <p class="section-sub">단순한 1회성 페이지가 아닌, 평생 간직할 6가지 핵심 아카이브 공간을 담았습니다.</p>
+            </div>
+
+            <div class="preview-grid">
+                <!-- 01 -->
+                <div class="preview-card">
+                    <div class="preview-screen-box">
+                        <div class="screen-content screen-intro">
+                            <span class="screen-badge">MAIN HOME</span>
+                            <div class="screen-avatar-mini">
+                                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=300&auto=format&fit=crop&q=80"
+                                    alt="샘플">
+                            </div>
+                            <p class="screen-title">영원한 안식처</p>
+                            <div class="screen-stats">
+                                <span>전한 선물 128</span>
+                                <span>함께한 4,820일</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-card-info">
+                        <div class="preview-tag-wrap">
+                            <span class="preview-num">01</span>
+                            <span class="preview-cat">메인 헌정 공간</span>
+                        </div>
+                        <h3>서정적인 첫인상과 선물 건네기</h3>
+                        <p>대표 사진과 동행 D-day, 그리고 아이가 좋아하던 간식과<br>장난감을 놓으며 따뜻한 온기를 쌓아가는 공간입니다.</p>
+                    </div>
+                </div>
+
+                <!-- 02 -->
+                <div class="preview-card">
+                    <div class="preview-screen-box">
+                        <div class="screen-content screen-timeline">
+                            <div class="timeline-item-sample">
+                                <span class="t-year">2013</span>
+                                <span class="t-text">우리 곁으로 처음 온 날</span>
+                            </div>
+                            <div class="timeline-item-sample">
+                                <span class="t-year">2019</span>
+                                <span class="t-text">온 가족이 함께 떠난 제주 여행</span>
+                            </div>
+                            <div class="timeline-item-sample">
+                                <span class="t-year">2026</span>
+                                <span class="t-text">별이 되어 영원히 기억될 순간</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-card-info">
+                        <div class="preview-tag-wrap">
+                            <span class="preview-num">02</span>
+                            <span class="preview-cat">발자취 타임라인</span>
+                        </div>
+                        <h3>연대기별로 엮어낸 생애 기록</h3>
+                        <p>흩어진 사진들을 시간 순서대로 엮어, 함께했던 계절과<br>눈부셨던 주요 순간을 한 권의 자서전처럼 펼쳐봅니다.</p>
+                    </div>
+                </div>
+
+                <!-- 03 -->
+                <div class="preview-card">
+                    <div class="preview-screen-box">
+                        <div class="screen-content screen-gallery">
+                            <div class="gallery-thumb-grid">
+                                <div class="thumb-img"><img
+                                        src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=200&auto=format&fit=crop&q=80"
+                                        alt="사진"></div>
+                                <div class="thumb-img"><img
+                                        src="https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=200&auto=format&fit=crop&q=80"
+                                        alt="사진"></div>
+                                <div class="thumb-img"><img
+                                        src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=200&auto=format&fit=crop&q=80"
+                                        alt="사진"></div>
+                                <div class="thumb-img"><img
+                                        src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=200&auto=format&fit=crop&q=80"
+                                        alt="사진"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-card-info">
+                        <div class="preview-tag-wrap">
+                            <span class="preview-num">03</span>
+                            <span class="preview-cat">미디어 갤러리</span>
+                        </div>
+                        <h3>화질 저하 없는 고화질 사진·영상</h3>
+                        <p>꼬리치며 뛰놀던 영상(MP4)과 원본 사진을<br>압축 손실 없이 안전하게 클라우드에 영구 보존합니다.</p>
+                    </div>
+                </div>
+
+                <!-- 04 -->
+                <div class="preview-card">
+                    <div class="preview-screen-box">
+                        <div class="screen-content screen-letters">
+                            <div class="letter-bubble-sample" style="border-left: 3px solid var(--accent-brown);">
+                                <span class="letter-from">외삼촌이 보낸 사진</span>
+                                <p class="letter-text">"작년 여름 마당에서 뛰놀던 사진 찾아 보낸다."</p>
+                            </div>
+                            <div class="letter-bubble-sample" style="border-left: 3px solid var(--accent-brown);">
+                                <span class="letter-from">친구 지원이가 보낸 영상</span>
+                                <p class="letter-text">"한강에서 공놀이하던 짧은 영상이야."</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-card-info">
+                        <div class="preview-tag-wrap">
+                            <span class="preview-num">04</span>
+                            <span class="preview-cat">가족 사진 취합함</span>
+                        </div>
+                        <h3>지인들과 함께 모으는 옛 추억</h3>
+                        <p>친척과 친구들이 회원가입 없이 전용 링크 하나로<br>각자 간직해 온 아이의 사진과 사연을 손쉽게 보냅니다.</p>
+                    </div>
+                </div>
+
+                <!-- 05 -->
+                <div class="preview-card">
+                    <div class="preview-screen-box">
+                        <div class="screen-content screen-letters">
+                            <div class="letter-bubble-sample">
+                                <span class="letter-from">가족 일동</span>
+                                <p class="letter-text">"너와 함께한 시간들은 우리 삶의 가장 눈부신 선물이었어."</p>
+                            </div>
+                            <div class="letter-bubble-sample">
+                                <span class="letter-from">친구 민서</span>
+                                <p class="letter-text">"그곳에선 아프지 말고 평안하고 행복하길."</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-card-info">
+                        <div class="preview-tag-wrap">
+                            <span class="preview-num">05</span>
+                            <span class="preview-cat">무지개 우체통</span>
+                        </div>
+                        <h3>가족과 지인이 남기는 추모 편지</h3>
+                        <p>편지 봉투를 열어보는 감성 인터페이스와 함께<br>그리운 마음을 자유롭게 남길 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <!-- 06 -->
+                <div class="preview-card">
+                    <div class="preview-screen-box">
+                        <div class="screen-content screen-export">
+                            <div class="export-badge-box">
+                                <span class="export-chip">PDF 화보집 원클릭 다운로드</span>
+                                <span class="export-chip">매년 생일 & 기일 카카오톡 알림톡</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-card-info">
+                        <div class="preview-tag-wrap">
+                            <span class="preview-num">06</span>
+                            <span class="preview-cat">영구 소장 & 기념일 케어</span>
+                        </div>
+                        <h3>PDF 화보집 및 기념일 자동 알림</h3>
+                        <p>추모관의 모든 기록을 한 권의 전자책으로 저장하고,<br>매년 기일, 설정한 날짜에 리마인드 알림을 보내드립니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="showcase" class="section showcase-section">
         <div class="container">
             <div class="section-title-wrap">
-                <span class="section-tag">EXPERIENCE</span>
-                <h2 class="section-heading">원하는 추모관을 직접 체험해 보세요</h2>
-                <p class="section-sub">대상에 맞춘 최적화된 무드와 인터랙션을 제공합니다.</p>
+                <span class="section-tag">LIVE BUILDER</span>
+                <h2 class="section-heading">우리 아이 추모관을 3초 만에 미리 만들어보세요</h2>
+                <p class="section-sub">아이의 정보와 좋아하던 선물을 입력하면 실제 웹 추모관의 모습이 실시간으로 완성됩니다.</p>
             </div>
 
-            <div class="showcase-tabs">
-                <button class="tab-btn active" type="button" onclick="switchTab(event, 'pet')">🐾 반려동물 추모관</button>
-                <button class="tab-btn" type="button" onclick="switchTab(event, 'person')">🕊️ 인물 디지털 추모관</button>
-            </div>
+            <div class="builder-container">
+                <div class="builder-form-box">
+                    <h3 class="builder-form-title">추모관 기본 정보</h3>
 
-            <div class="showcase-card">
-                <div class="showcase-preview">
-                    <div class="preview-inner">
-                        <span class="preview-badge" id="tabBadge">🌈 무지개별에서 행복하게 뛰노는 중</span>
-                        <div class="preview-avatar" id="tabAvatar">
-                            <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500&auto=format&fit=crop&q=80"
-                                alt="프로필">
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label class="form-label" for="petNameInput">아이 이름</label>
+                            <input type="text" id="petNameInput" class="form-input" placeholder="예: 코코" value="코코"
+                                oninput="updateLivePreview()">
                         </div>
-                        <h3 class="preview-name" id="tabName">코코 (Coco)</h3>
-                        <p class="preview-sub" id="tabSub">말티즈 · 함께한 4,820일의 행복</p>
-                        <div class="preview-interactive-box" id="tabInteractive">
-                            <button class="mini-btn" type="button">🍖 간식 놓기</button>
-                            <button class="mini-btn" type="button">🎾 장난감 선물</button>
-                            <button class="mini-btn" type="button">🕯️ 촛불 켜기</button>
+                        <div class="form-group flex-1">
+                            <label class="form-label">아이 사진 등록</label>
+                            <div class="photo-upload-inline">
+                                <label for="petPhotoInput" class="btn-photo-upload btn-photo-compact">
+                                    <svg viewBox="0 0 24 24" class="upload-icon">
+                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                                    </svg>
+                                    <span>사진 선택하기</span>
+                                </label>
+                                <input type="file" id="petPhotoInput" accept="image/*" style="display: none;"
+                                    onchange="handlePhotoUpload(event)">
+                                <span class="upload-hint-text">얼굴이 잘 나온 사진</span>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label class="form-label">아이 종류 선택</label>
+                        <div class="pet-type-selector">
+                            <button type="button" class="pet-type-btn active" onclick="selectPetType(this, 'dog')">🐶
+                                강아지</button>
+                            <button type="button" class="pet-type-btn" onclick="selectPetType(this, 'cat')">🐱
+                                고양이</button>
+                            <button type="button" class="pet-type-btn" onclick="selectPetType(this, 'small')">🐹
+                                소동물</button>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label class="form-label" for="giftInput1">첫 번째 선물</label>
+                            <input type="text" id="giftInput1" class="form-input" value="좋아하던 간식" placeholder="예: 간식"
+                                oninput="updateLiveGifts()">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label class="form-label" for="giftInput2">두 번째 선물</label>
+                            <input type="text" id="giftInput2" class="form-input" value="테니스공" placeholder="예: 공"
+                                oninput="updateLiveGifts()">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label class="form-label" for="petMeetInput">처음 만난 날</label>
+                            <input type="date" id="petMeetInput" class="form-input" value="2013-05-10"
+                                onchange="updateLivePreview()">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label class="form-label" for="petFarewellInput">별이 된 날</label>
+                            <input type="date" id="petFarewellInput" class="form-input" value="2026-02-15"
+                                onchange="updateLivePreview()">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="petQuoteInput">남기고 싶은 한 줄 메시지</label>
+                        <input type="text" id="petQuoteInput" class="form-input"
+                            value="그곳에선 아프지 말고 좋아하는 산책 실컷 하고 있어. 영원히 사랑해." oninput="updateLivePreview()">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="petBgmSelect">배경음악 (BGM)</label>
+                        <select id="petBgmSelect" class="form-input form-select" onchange="updateLiveBgm()">
+                            <option value="별빛 아래 너와 나 (잔잔한 피아노)">01. 별빛 아래 너와 나 (잔잔한 피아노)</option>
+                            <option value="따뜻한 봄날의 산책 (어쿠스틱 기타)">02. 따뜻한 봄날의 산책 (어쿠스틱 기타)</option>
+                            <option value="영원한 안식처 (서정적인 오르골)">03. 영원한 안식처 (서정적인 오르골)</option>
+                            <option value="음악 없음 (조용한 추모)">04. 음악 없음 (조용한 추모)</option>
+                        </select>
+                    </div>
+
+                    <div class="builder-cta-wrap">
+                        <a href="#pricing" class="btn btn-primary btn-full">이 모습 그대로 평생 소장하기 →</a>
+                        <span class="cta-subtext">사진과 선물 종류는 개설 후 관리자 화면에서 자유롭게 추가·변경 가능합니다.</span>
+                    </div>
                 </div>
-                <div class="showcase-desc">
-                    <h4 id="tabDescTitle">반려동물 전용 무지개 아카이브</h4>
-                    <ul class="check-list" id="tabCheckList">
-                        <li>간식 주기, 장난감 선물 등 서정적 인터랙션</li>
-                        <li>처음 만난 날부터의 D-day 자동 계산</li>
-                        <li>보호자 편지 및 랜선 이모들의 따뜻한 롤링페이퍼</li>
-                        <li>포근한 파스텔 웜베이지 톤앤매너</li>
-                    </ul>
-                    <a href="#pricing" class="btn btn-primary showcase-action-btn">이 템플릿으로 시작하기</a>
+
+                <div class="builder-preview-box">
+                    <div class="phone-mockup builder-mockup">
+                        <div class="mockup-screen">
+                            <div class="mockup-bgm-bar">
+                                <span class="bgm-dot"></span>
+                                <span id="liveBgmText" class="bgm-title">01. 별빛 아래 너와 나 (잔잔한 피아노)</span>
+                                <span class="bgm-play-btn">▶</span>
+                            </div>
+
+                            <span class="mockup-badge">IN LOVING MEMORY</span>
+
+                            <div class="mockup-img-frame">
+                                <div class="mockup-img" id="liveAvatar">
+                                    <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500&auto=format&fit=crop&q=80"
+                                        alt="프로필">
+                                </div>
+                            </div>
+
+                            <h3 class="mockup-name" id="liveName">코코</h3>
+                            <div class="mockup-dates" id="liveDates">
+                                <span>2013.05.10 — 2026.02.15</span>
+                                <span class="dates-dday">함께한 4,664일의 여정</span>
+                            </div>
+
+                            <div class="mockup-interactive">
+                                <button class="mockup-btn" type="button" onclick="addCount(this)">
+                                    <span class="btn-dot"></span>
+                                    <span id="liveGift1">좋아하던 간식</span> <strong class="cnt">1</strong>
+                                </button>
+                                <button class="mockup-btn" type="button" onclick="addCount(this)">
+                                    <span class="btn-dot"></span>
+                                    <span id="liveGift2">테니스공</span> <strong class="cnt">1</strong>
+                                </button>
+                            </div>
+
+                            <div class="mockup-quote" id="liveQuote">
+                                <span class="quote-mark">“</span>
+                                <span id="liveQuoteText">그곳에선 아프지 말고 좋아하는 산책 실컷 하고 있어. 영원히 사랑해.</span>
+                                <span class="quote-mark">”</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- --- 5. Pricing Section --- -->
     <section id="pricing" class="section pricing-section">
         <div class="container">
             <div class="section-title-wrap">
@@ -178,58 +484,78 @@
             </div>
 
             <div class="pricing-grid">
-                <div class="pricing-card">
+                <!-- 01. 디지털 소장권 (론칭 스페셜) -->
+                <div class="pricing-card popular launching-card">
+                    <div class="popular-tag">LAUNCHING SPECIAL</div>
                     <div class="pricing-header">
                         <h3>디지털 소장권</h3>
                         <p>언제 어디서나 함께하는 웹 아카이브</p>
-                        <div class="price">39,000<span>원 (1회)</span></div>
+                        <div class="price-wrap">
+                            <div class="price-badge-row">
+                                <span class="original-price">39,000원</span>
+                                <span class="discount-badge">50% 한정 혜택</span>
+                            </div>
+                            <div class="price">19,500<span>원 (1회)</span></div>
+                        </div>
                     </div>
                     <ul class="pricing-features">
-                        <li>✓ 영구 독립 고유 웹 링크 발급</li>
-                        <li>✓ 사진/영상 무제한 업로드</li>
-                        <li>✓ 가족 간편 사진 취합 링크 제공</li>
-                        <li>✓ 배경음악(BGM) 및 방명록</li>
-                        <li>✓ PDF 전자책 원클릭 다운로드</li>
+                        <li><strong>영구 독립 고유 웹 링크</strong></li>
+                        <li><strong>사진/영상 및 원본 보관 무제한</strong></li>
+                        <li>가족 사진 취합 링크 제공</li>
+                        <li>배경음악(BGM) 및 무지개 우체통</li>
+                        <li>PDF 전자책 원클릭 다운로드</li>
+                        <li>매년 생일 & 기일 카카오톡 알림톡</li>
                     </ul>
-                    <button class="btn btn-secondary btn-full" type="button">신청하기</button>
+                    <button class="btn btn-primary btn-full" type="button">혜택가로 신청하기</button>
                 </div>
 
-                <div class="pricing-card popular">
-                    <div class="popular-tag">가장 인기 있는 구성</div>
+                <!-- 02. 헤리티지 패키지 -->
+                <div class="pricing-card">
                     <div class="pricing-header">
                         <h3>헤리티지 패키지</h3>
                         <p>디지털 웹 + 납골당/유골함 부착 실물 명판</p>
-                        <div class="price">89,000<span>원 (1회)</span></div>
+                        <div class="price-wrap">
+                            <div class="price-badge-row">
+                                <span class="original-price">89,000원</span>
+                                <span class="discount-badge">33% 론칭 혜택</span>
+                            </div>
+                            <div class="price">59,000<span>원 (1회)</span></div>
+                        </div>
                     </div>
                     <ul class="pricing-features">
-                        <li>✓ <strong>디지털 소장권 전체 기능 포함</strong></li>
-                        <li>✓ <strong>각인형 프리미엄 NFC·QR 메탈 명판</strong></li>
-                        <li>✓ 스마트폰 태깅 시 추모관 원터치 연결</li>
-                        <li>✓ 옥외/실내 영구 보존 방수·방변색 소재</li>
-                        <li>✓ 무료 각인 및 고급 선물용 패키징 배송</li>
+                        <li><strong>디지털 소장권 전체 기능 포함</strong></li>
+                        <li><strong>아이 이름·날짜 맞춤 각인형 실물 명판</strong></li>
+                        <li>스마트폰 태깅 시 추모관 원터치 연결 (NFC/QR)</li>
+                        <li>오랜 시간 변형 없는 내구성 보존 가공</li>
+                        <li>유골함·봉안당 간편 부착 키트 동봉</li>
+                        <li>안전 배송 및 선물용 패키징</li>
                     </ul>
-                    <button class="btn btn-primary btn-full" type="button">패키지 신청하기</button>
+                    <button class="btn btn-secondary btn-full" type="button">패키지 신청하기</button>
                 </div>
 
-                <div class="pricing-card">
+                <!-- 03. 메모리북 풀패키지 (준비 중) -->
+                <div class="pricing-card coming-soon-card">
+                    <div class="coming-soon-tag">OPENING SOON</div>
                     <div class="pricing-header">
                         <h3>메모리북 풀패키지</h3>
-                        <p>디지털 웹 + NFC 명판 + 하드커버 화보집</p>
-                        <div class="price">129,000<span>원 (1회)</span></div>
+                        <p>온전한 보존을 위한 프리미엄 에디션</p>
                     </div>
-                    <ul class="pricing-features">
-                        <li>✓ <strong>헤리티지 패키지 전체 구성 포함</strong></li>
-                        <li>✓ <strong>고급 하드커버 추모 포토북 (32p)</strong></li>
-                        <li>✓ 전문 편집자의 레이아웃 맞춤 보정</li>
-                        <li>✓ 고화질 원본 ZIP 영구 백업 드라이브 제공</li>
-                    </ul>
-                    <button class="btn btn-secondary btn-full" type="button">신청하기</button>
+                    <div class="coming-soon-body">
+                        <div class="coming-soon-icon">
+                            <svg viewBox="0 0 24 24" class="book-icon">
+                                <path
+                                    d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z" />
+                            </svg>
+                        </div>
+                        <p class="coming-soon-title">손끝으로 만지는 영원한 기록</p>
+                        <p class="coming-soon-desc">더 따뜻하고 깊이 있는 온기를 담아내기 위해<br>실물 화보집 구성을 정성스럽게 다듬고 있습니다.</p>
+                    </div>
+                    <button class="btn btn-disabled btn-full" type="button" disabled>오픈 준비 중</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- --- 6. FAQ Section --- -->
     <section id="faq" class="section faq-section">
         <div class="container faq-container">
             <div class="section-title-wrap">
@@ -240,21 +566,21 @@
             <div class="faq-list">
                 <div class="faq-item">
                     <h3 class="faq-q">Q. 매달 결제되는 구독료가 있나요?</h3>
-                    <p class="faq-a">아닙니다. 1회 결제로 추가 비용 없이 평생 소장되며, 서버리스 클라우드 아카이브를 통해 영구 보존됩니다.</p>
+                    <p class="faq-a">A. 아닙니다. 1회 결제로 추가 비용 없이 평생 소장되며, 클라우드 아카이브를 통해 영구 보존됩니다.</p>
                 </div>
                 <div class="faq-item">
                     <h3 class="faq-q">Q. 서비스가 중단되면 사진은 어떻게 되나요?</h3>
-                    <p class="faq-a">언제든 관리자 화면에서 추모관의 모든 사진, 사연, 방명록을 한 권의 고화질 PDF 전자책과 ZIP 파일로 원클릭 다운로드할 수 있습니다.</p>
+                    <p class="faq-a">A. 언제든 관리자 화면에서 추모관의 모든 사진, 사연, 방명록을 한 권의 고화질 PDF 전자책과 ZIP 파일로 원클릭 다운로드할 수 있습니다.
+                    </p>
                 </div>
                 <div class="faq-item">
-                    <h3 class="faq-q">Q. 친척이나 친구들에게 어떻게 공유하나요?</h3>
-                    <p class="faq-a">별도의 앱 설치나 회원가입 없이 생성된 고유 링크(URL)를 카카오톡이나 문자로 보내면 즉시 접속할 수 있습니다.</p>
+                    <h3 class="faq-q">Q. 친척이나 지인들에게 어떻게 공유하나요?</h3>
+                    <p class="faq-a">A. 별도의 앱 설치나 회원가입 없이 생성된 고유 링크(URL)를 카카오톡이나 문자로 전달하면 즉시 접속할 수 있습니다.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- --- 7. Footer --- -->
     <footer class="footer">
         <div class="container footer-container">
             <div class="footer-brand">
@@ -265,55 +591,92 @@
         </div>
     </footer>
 
-    <!-- --- 8. Script Logic --- -->
     <script>
-        /* Showcase Tab Switch */
-        function switchTab(evt, type) {
-            const tabs = document.querySelectorAll('.tab-btn');
-            tabs.forEach(t => t.classList.remove('active'));
-            evt.currentTarget.classList.add('active');
+        function updateLivePreview() {
+            const name = document.getElementById('petNameInput').value || '우리 아이';
+            const meetDate = document.getElementById('petMeetInput').value;
+            const farewellDate = document.getElementById('petFarewellInput').value;
+            const quote = document.getElementById('petQuoteInput').value || '영원히 기억할게.';
 
-            const badge = document.getElementById('tabBadge');
-            const avatar = document.getElementById('tabAvatar');
-            const name = document.getElementById('tabName');
-            const sub = document.getElementById('tabSub');
-            const interactive = document.getElementById('tabInteractive');
-            const descTitle = document.getElementById('tabDescTitle');
-            const checkList = document.getElementById('tabCheckList');
+            document.getElementById('liveName').innerText = name;
+            document.getElementById('liveQuoteText').innerText = quote;
 
-            if (type === 'pet') {
-                badge.innerText = '🌈 무지개별에서 행복하게 뛰노는 중';
-                avatar.innerHTML = '<img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500&auto=format&fit=crop&q=80" alt="반려동물">';
-                name.innerText = '코코 (Coco)';
-                sub.innerText = '말티즈 · 함께한 4,820일의 행복';
-                interactive.innerHTML = `
-          <button class="mini-btn" type="button">🍖 간식 놓기</button>
-          <button class="mini-btn" type="button">🎾 장난감 선물</button>
-          <button class="mini-btn" type="button">🕯️ 촛불 켜기</button>
-        `;
-                descTitle.innerText = '반려동물 전용 무지개 아카이브';
-                checkList.innerHTML = `
-          <li>간식 주기, 장난감 선물 등 서정적 인터랙션</li>
-          <li>처음 만난 날부터의 D-day 자동 계산</li>
-          <li>보호자 편지 및 랜선 이모들의 따뜻한 롤링페이퍼</li>
-          <li>포근한 파스텔 웜베이지 톤앤매너</li>
-        `;
-            } else {
-                badge.innerText = '🕊️ 고결했던 삶을 영원히 기억하며';
-                avatar.innerHTML = '<img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=80" alt="인물">';
-                name.innerText = '故 김 은 숙 님';
-                sub.innerText = '1952. 04. 12 — 2026. 02. 10';
-                interactive.innerHTML = `
-          <button class="mini-btn" type="button">🌼 온라인 헌화하기</button>
-          <button class="mini-btn" type="button">🕯️ 분향하기</button>
-        `;
-                descTitle.innerText = '인물 전용 헤리티지 추모관';
-                checkList.innerHTML = `
-          <li>국화 헌화 및 온라인 분향소 인터랙션</li>
-          <li>생애 발자취 연대기(Timeline) 기록관</li>
-          <li>가족 및 친인척들의 추모 편지함</li>
-          <li>단아하고 품격 있는 클래식 명조 디자인</li>
-        `;
+            if (meetDate && farewellDate) {
+                const start = new Date(meetDate);
+                const end = new Date(farewellDate);
+                const diffTime = Math.abs(end - start);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                const startStr = meetDate.replace(/-/g, '.');
+                const endStr = farewellDate.replace(/-/g, '.');
+
+                document.getElementById('liveDates').innerHTML = `
+                    <span>${startStr} — ${endStr}</span>
+                    <span class="dates-dday">함께한 ${diffDays.toLocaleString()}일의 여정</span>
+                `;
+            }
+        }
+
+        function selectPetType(btn, type) {
+            document.querySelectorAll('.pet-type-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const g1 = document.getElementById('giftInput1');
+            const g2 = document.getElementById('giftInput2');
+
+            if (type === 'dog') {
+                g1.value = '좋아하던 간식';
+                g2.value = '테니스공';
+            } else if (type === 'cat') {
+                g1.value = '맛있는 츄르';
+                g2.value = '낚싯대';
+            } else if (type === 'small') {
+                g1.value = '해바라기씨';
+                g2.value = '신선한 건초';
+            }
+            updateLiveGifts();
+        }
+
+        function updateLiveGifts() {
+            const g1Val = document.getElementById('giftInput1').value || '첫 번째 선물';
+            const g2Val = document.getElementById('giftInput2').value || '두 번째 선물';
+
+            const live1 = document.getElementById('liveGift1');
+            const live2 = document.getElementById('liveGift2');
+            if (live1) live1.innerText = g1Val;
+            if (live2) live2.innerText = g2Val;
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const avatar = document.getElementById('liveAvatar');
+                    avatar.innerHTML = `<img src="${e.target.result}" alt="업로드된 프로필">`;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function addCount(btn) {
+            const cntSpan = btn.querySelector('.cnt');
+            if (cntSpan) {
+                let count = parseInt(cntSpan.innerText, 10);
+                cntSpan.innerText = count + 1;
+                btn.style.borderColor = 'var(--accent-brown)';
+                btn.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    btn.style.transform = 'scale(1)';
+                }, 150);
+            }
+        }
+
+        function updateLiveBgm() {
+            const bgmSelect = document.getElementById('petBgmSelect');
+            const liveBgmText = document.getElementById('liveBgmText');
+            if (bgmSelect && liveBgmText) {
+                liveBgmText.innerText = bgmSelect.value;
             }
         }
     </script>

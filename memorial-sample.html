@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코코의 기억의 숲 | MEMORIAL</title>
+
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+KR:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="sample.css">
+</head>
+
+<body>
+
+    <header class="sample-nav">
+        <a href="index.html" class="btn-back">← 메인으로 돌아가기</a>
+        <div class="bgm-controller">
+            <span class="bgm-icon">🎵</span>
+            <select class="bgm-select" id="bgmSelect" onchange="switchBgm()">
+                <option value="01">01. 별빛 아래 너와 나 (피아노)</option>
+                <option value="02">02. 따뜻한 봄날의 산책 (기타)</option>
+                <option value="03">03. 영원한 안식처 (오르골)</option>
+            </select>
+            <button type="button" class="btn-bgm-toggle" id="bgmToggleBtn" onclick="toggleBgmPlay()">정지</button>
+        </div>
+    </header>
+
+    <main class="sample-container">
+        <section class="memorial-intro">
+            <span class="intro-badge">IN LOVING MEMORY</span>
+            <div class="intro-avatar-frame">
+                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500&auto=format&fit=crop&q=80"
+                    alt="코코">
+            </div>
+            <h1 class="intro-name">코코</h1>
+            <p class="intro-dates">2013.05.10 — 2026.02.15 (함께한 <strong>4,820일</strong>의 여정)</p>
+
+            <div class="interactive-row">
+                <button type="button" class="btn-interact" onclick="addInteractCount(this)">
+                    <span class="btn-dot"></span> 좋아하던 간식 <strong class="cnt">124</strong>
+                </button>
+                <button type="button" class="btn-interact" onclick="addInteractCount(this)">
+                    <span class="btn-dot"></span> 노란 테니스공 <strong class="cnt">89</strong>
+                </button>
+                <button type="button" class="btn-interact" onclick="addInteractCount(this)">
+                    <span class="btn-dot"></span> 촛불 밝히기 <strong class="cnt">210</strong>
+                </button>
+            </div>
+
+            <div class="intro-quote">
+                “그곳에선 아프지 말고 좋아하는 산책 실컷 하고 있어.<br>우리 가족에게 와줘서 정말 행복했어. 영원히 사랑해.”
+            </div>
+        </section>
+
+        <section class="sub-section">
+            <div class="sub-header">
+                <span class="sub-tag">TIMELINE</span>
+                <h2 class="sub-title">발자취 타임라인</h2>
+            </div>
+            <div class="timeline-list">
+                <div class="timeline-item">
+                    <span class="timeline-date">2013년 5월 10일</span>
+                    <p class="timeline-text">손바닥만 하던 네가 처음 우리 집에 오던 날, 온 집안이 따뜻해졌어.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date">2018년 9월 14일</span>
+                    <p class="timeline-text">처음 떠났던 제주도 바다. 파도를 무서워하면서도 모래사장을 힘차게 뛰놀았지.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date">2026년 2월 15일</span>
+                    <p class="timeline-text">가족들의 품에서 조용히 눈을 감고, 가장 빛나는 별이 된 날.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="sub-section">
+            <div class="sub-header">
+                <span class="sub-tag">PHOTO GALLERY</span>
+                <h2 class="sub-title">기억의 갤러리</h2>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item"><img
+                        src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500&auto=format&fit=crop&q=80"
+                        alt="사진1"></div>
+                <div class="gallery-item"><img
+                        src="https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=500&auto=format&fit=crop&q=80"
+                        alt="사진2"></div>
+                <div class="gallery-item"><img
+                        src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=500&auto=format&fit=crop&q=80"
+                        alt="사진3"></div>
+                <div class="gallery-item"><img
+                        src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=500&auto=format&fit=crop&q=80"
+                        alt="사진4"></div>
+            </div>
+        </section>
+
+        <section class="sub-section">
+            <div class="sub-header">
+                <span class="sub-tag">POSTBOX</span>
+                <h2 class="sub-title">무지개 우체통</h2>
+            </div>
+
+            <form class="letter-form" onsubmit="handleLetterSubmit(event)">
+                <div class="letter-input-row">
+                    <input type="text" id="letterName" class="letter-input" placeholder="보내는 분 이름" required>
+                    <input type="text" id="letterRelation" class="letter-input" placeholder="관계 (예: 누나, 삼촌)" required>
+                </div>
+                <textarea id="letterMsg" class="letter-textarea" placeholder="코코에게 전하고 싶은 따뜻한 한마디를 남겨주세요."
+                    required></textarea>
+                <button type="submit" class="btn-letter-submit">편지 남기기</button>
+            </form>
+
+            <div class="letter-list" id="letterList">
+                <div class="letter-card">
+                    <div class="letter-header">
+                        <span class="letter-author">누나 수진</span>
+                        <span class="letter-date">2026.08.16</span>
+                    </div>
+                    <p class="letter-content">코코야, 네가 없으니 방이 너무 조용해. 꿈속에 꼭 한번 놀러 와줘. 보고 싶다.</p>
+                </div>
+                <div class="letter-card">
+                    <div class="letter-header">
+                        <span class="letter-author">삼촌 민규</span>
+                        <span class="letter-date">2026.08.15</span>
+                    </div>
+                    <p class="letter-content">갈 때마다 반갑게 꼬리 흔들어주던 모습이 생생하다. 좋은 곳에서 편히 쉬렴.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="sample-cta-banner">
+            <h4>우리 아이를 위한 단 하나의 디지털 안식처</h4>
+            <p>1회 결제로 평생 보존되는 우리 가족만의 추모 공간을 개설해보세요.</p>
+            <a href="index.html#pricing" class="btn-banner">추모관 개설하기</a>
+        </div>
+    </main>
+
+    <script>
+        let isBgmPlaying = true;
+
+        function toggleBgmPlay() {
+            const btn = document.getElementById('bgmToggleBtn');
+            isBgmPlaying = !isBgmPlaying;
+            btn.innerText = isBgmPlaying ? '정지' : '재생';
+        }
+
+        function switchBgm() {
+            const btn = document.getElementById('bgmToggleBtn');
+            isBgmPlaying = true;
+            btn.innerText = '정지';
+        }
+
+        function addInteractCount(btn) {
+            const cntSpan = btn.querySelector('.cnt');
+            if (cntSpan) {
+                let cnt = parseInt(cntSpan.innerText, 10);
+                cntSpan.innerText = cnt + 1;
+                btn.style.transform = 'scale(1.08)';
+                setTimeout(() => { btn.style.transform = 'scale(1)'; }, 150);
+            }
+        }
+
+        function handleLetterSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('letterName').value;
+            const relation = document.getElementById('letterRelation').value;
+            const msg = document.getElementById('letterMsg').value;
+
+            const card = document.createElement('div');
+            card.className = 'letter-card';
+            card.innerHTML = `
+                <div class="letter-header">
+                    <span class="letter-author">${relation} ${name}</span>
+                    <span class="letter-date">방금 전</span>
+                </div>
+                <p class="letter-content">${msg}</p>
+            `;
+
+            const list = document.getElementById('letterList');
+            list.insertBefore(card, list.firstChild);
+
+            document.getElementById('letterName').value = '';
+            document.getElementById('letterRelation').value = '';
+            document.getElementById('letterMsg').value = '';
+        }
+    </script>
+</body>
+
+</html>
