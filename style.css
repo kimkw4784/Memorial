@@ -1036,7 +1036,8 @@ body {
 }
 
 .pricing-header {
-    height: 145px;
+    height: auto;
+    margin-bottom: 24px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -1107,7 +1108,7 @@ body {
     list-style: none;
     margin-bottom: 28px;
     border-top: 1px solid var(--border-light);
-    padding-top: 20px;
+    padding-top: 24px;
     flex: 1;
 }
 
