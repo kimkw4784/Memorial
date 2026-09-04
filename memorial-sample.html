@@ -25,9 +25,10 @@
             <div class="bgm-controller">
                 <span class="bgm-icon">🎵</span>
                 <select class="bgm-select" id="bgmSelect" onchange="switchBgm()">
-                    <option value="audio/bgm-piano.mp3">01. 별빛 아래 너와 나 (피아노)</option>
-                    <option value="audio/bgm-guitar.mp3">02. 따뜻한 봄날의 산책 (기타)</option>
-                    <option value="audio/bgm-musicbox.mp3">03. 영원한 안식처 (오르골)</option>
+                    <option value="" disabled selected>배경음악 선택</option>
+                    <option value="./audio/bgm-piano.mp3">01. 별빛 아래 너와 나 (피아노)</option>
+                    <option value="./audio/bgm-guitar.mp3">02. 따뜻한 봄날의 산책 (기타)</option>
+                    <option value="./audio/bgm-musicbox.mp3">03. 영원한 안식처 (오르골)</option>
                 </select>
                 <button type="button" class="btn-bgm-toggle" id="bgmToggleBtn" onclick="toggleBgmPlay()">재생</button>
             </div>
@@ -174,28 +175,22 @@
                     <input type="text" id="letterName" class="letter-input" placeholder="보내는 분 이름" required>
                     <input type="text" id="letterRelation" class="letter-input" placeholder="관계 (예: 누나, 삼촌)" required>
                 </div>
-                <textarea id="letterMsg" class="letter-textarea" placeholder="코코에게 전하고 싶은 따뜻한 한마디를 남겨주세요."
-                    required></textarea>
+                <textarea id="letterMsg" class="letter-textarea" placeholder="코코에게 전하고 싶은 따뜻한 한마디를 남겨주세요. (최대 1,000자)"
+                    maxlength="1000" required></textarea>
                 <button type="submit" class="btn-letter-submit">편지 남기기</button>
             </form>
 
-            <div class="letter-list" id="letterList">
-                <div class="letter-card">
-                    <div class="letter-header">
-                        <span class="letter-author">누나 수진</span>
-                        <span class="letter-date">2026.08.16</span>
-                    </div>
-                    <p class="letter-content">코코야, 네가 없으니 방이 너무 조용해. 꿈속에 꼭 한번 놀러 와줘. 보고 싶다.</p>
-                </div>
-                <div class="letter-card">
-                    <div class="letter-header">
-                        <span class="letter-author">삼촌 민규</span>
-                        <span class="letter-date">2026.08.15</span>
-                    </div>
-                    <p class="letter-content">갈 때마다 반갑게 꼬리 흔들어주던 모습이 생생하다. 좋은 곳에서 편히 쉬렴.</p>
-                </div>
-            </div>
+            <div class="letter-list" id="letterList"></div>
         </section>
+
+
+        <div class="share-container">
+            <button type="button" class="btn-share-link" onclick="copyMemorialLink()">
+                🔗 추모관 링크 공유하기
+            </button>
+        </div>
+
+        <div id="toastMessage" class="toast-popup">추모관 링크가 클립보드에 복사되었습니다.</div>
 
         <div class="sample-cta-banner">
             <h4>우리 아이를 위한 단 하나의 디지털 안식처</h4>

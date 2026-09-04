@@ -654,7 +654,9 @@ body {
     font-family: var(--font-serif-kr);
     font-size: 13px;
     color: var(--text-sub);
-    line-height: 1.5;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 
 .sample-cta-banner {
@@ -711,4 +713,52 @@ body {
     .gallery-grid {
         gap: 8px;
     }
+}
+
+.share-container {
+    display: flex;
+    justify-content: center;
+    margin: 32px 0 20px;
+}
+
+.btn-share-link {
+    background: transparent;
+    border: 1px solid var(--accent-brown);
+    color: var(--accent-brown);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-share-link:hover {
+    background: var(--accent-brown);
+    color: #fff;
+}
+
+.toast-popup {
+    visibility: hidden;
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(43, 38, 32, 0.88);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 13px;
+    letter-spacing: -0.3px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 10000;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.toast-popup.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
