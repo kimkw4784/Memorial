@@ -20,15 +20,17 @@
 <body>
 
     <header class="sample-nav">
-        <a href="index.html" class="btn-back">← 메인으로 돌아가기</a>
-        <div class="bgm-controller">
-            <span class="bgm-icon">🎵</span>
-            <select class="bgm-select" id="bgmSelect" onchange="switchBgm()">
-                <option value="01">01. 별빛 아래 너와 나 (피아노)</option>
-                <option value="02">02. 따뜻한 봄날의 산책 (기타)</option>
-                <option value="03">03. 영원한 안식처 (오르골)</option>
-            </select>
-            <button type="button" class="btn-bgm-toggle" id="bgmToggleBtn" onclick="toggleBgmPlay()">정지</button>
+        <div class="sample-nav-inner">
+            <a href="index.html" class="btn-back">← 메인으로 돌아가기</a>
+            <div class="bgm-controller">
+                <span class="bgm-icon">🎵</span>
+                <select class="bgm-select" id="bgmSelect" onchange="switchBgm()">
+                    <option value="01">01. 별빛 아래 너와 나 (피아노)</option>
+                    <option value="02">02. 따뜻한 봄날의 산책 (기타)</option>
+                    <option value="03">03. 영원한 안식처 (오르골)</option>
+                </select>
+                <button type="button" class="btn-bgm-toggle" id="bgmToggleBtn" onclick="toggleBgmPlay()">정지</button>
+            </div>
         </div>
     </header>
 
@@ -103,6 +105,48 @@
 
         <section class="sub-section">
             <div class="sub-header">
+                <span class="sub-tag">VIDEO MEMORY</span>
+                <h2 class="sub-title">눈부셨던 날의 영상</h2>
+            </div>
+            <div class="video-grid">
+                <div class="video-card" onclick="toggleVideoPlay(this)">
+                    <div class="video-wrapper">
+                        <video loop muted playsinline preload="metadata">
+                            <source
+                                src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+                                type="video/mp4">
+                        </video>
+                        <div class="video-play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-date">2023.05.21 한강공원</span>
+                        <p class="video-desc">풀냄새 맡으며 신나게 달리던 어느 봄날 오후의 코코</p>
+                    </div>
+                </div>
+
+                <div class="video-card" onclick="toggleVideoPlay(this)">
+                    <div class="video-wrapper">
+                        <video loop muted playsinline preload="metadata">
+                            <source
+                                src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+                                type="video/mp4">
+                        </video>
+                        <div class="video-play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-date">2024.08.12 거실 창가</span>
+                        <p class="video-desc">오후 햇살 받으며 꾸벅꾸벅 졸던 평화로운 순간</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="sub-section">
+            <div class="sub-header">
                 <span class="sub-tag">POSTBOX</span>
                 <h2 class="sub-title">무지개 우체통</h2>
             </div>
@@ -142,55 +186,7 @@
         </div>
     </main>
 
-    <script>
-        let isBgmPlaying = true;
-
-        function toggleBgmPlay() {
-            const btn = document.getElementById('bgmToggleBtn');
-            isBgmPlaying = !isBgmPlaying;
-            btn.innerText = isBgmPlaying ? '정지' : '재생';
-        }
-
-        function switchBgm() {
-            const btn = document.getElementById('bgmToggleBtn');
-            isBgmPlaying = true;
-            btn.innerText = '정지';
-        }
-
-        function addInteractCount(btn) {
-            const cntSpan = btn.querySelector('.cnt');
-            if (cntSpan) {
-                let cnt = parseInt(cntSpan.innerText, 10);
-                cntSpan.innerText = cnt + 1;
-                btn.style.transform = 'scale(1.08)';
-                setTimeout(() => { btn.style.transform = 'scale(1)'; }, 150);
-            }
-        }
-
-        function handleLetterSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('letterName').value;
-            const relation = document.getElementById('letterRelation').value;
-            const msg = document.getElementById('letterMsg').value;
-
-            const card = document.createElement('div');
-            card.className = 'letter-card';
-            card.innerHTML = `
-                <div class="letter-header">
-                    <span class="letter-author">${relation} ${name}</span>
-                    <span class="letter-date">방금 전</span>
-                </div>
-                <p class="letter-content">${msg}</p>
-            `;
-
-            const list = document.getElementById('letterList');
-            list.insertBefore(card, list.firstChild);
-
-            document.getElementById('letterName').value = '';
-            document.getElementById('letterRelation').value = '';
-            document.getElementById('letterMsg').value = '';
-        }
-    </script>
+    <script src="sample.js"></script>
 </body>
 
 </html>
