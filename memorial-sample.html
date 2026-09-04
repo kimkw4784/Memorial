@@ -25,11 +25,11 @@
             <div class="bgm-controller">
                 <span class="bgm-icon">🎵</span>
                 <select class="bgm-select" id="bgmSelect" onchange="switchBgm()">
-                    <option value="01">01. 별빛 아래 너와 나 (피아노)</option>
-                    <option value="02">02. 따뜻한 봄날의 산책 (기타)</option>
-                    <option value="03">03. 영원한 안식처 (오르골)</option>
+                    <option value="audio/bgm-piano.mp3">01. 별빛 아래 너와 나 (피아노)</option>
+                    <option value="audio/bgm-guitar.mp3">02. 따뜻한 봄날의 산책 (기타)</option>
+                    <option value="audio/bgm-musicbox.mp3">03. 영원한 안식처 (오르골)</option>
                 </select>
-                <button type="button" class="btn-bgm-toggle" id="bgmToggleBtn" onclick="toggleBgmPlay()">정지</button>
+                <button type="button" class="btn-bgm-toggle" id="bgmToggleBtn" onclick="toggleBgmPlay()">재생</button>
             </div>
         </div>
     </header>
@@ -88,20 +88,30 @@
                 <h2 class="sub-title">기억의 갤러리</h2>
             </div>
             <div class="gallery-grid">
-                <div class="gallery-item"><img
-                        src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500&auto=format&fit=crop&q=80"
-                        alt="사진1"></div>
-                <div class="gallery-item"><img
-                        src="https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=500&auto=format&fit=crop&q=80"
-                        alt="사진2"></div>
-                <div class="gallery-item"><img
-                        src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=500&auto=format&fit=crop&q=80"
-                        alt="사진3"></div>
-                <div class="gallery-item"><img
-                        src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=500&auto=format&fit=crop&q=80"
-                        alt="사진4"></div>
+                <div class="gallery-item" onclick="openImageModal(this)"><img
+                        src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=1200&auto=format&fit=crop&q=80"
+                        alt="코코와 함께한 따스한 날"></div>
+                <div class="gallery-item" onclick="openImageModal(this)"><img
+                        src="https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=1200&auto=format&fit=crop&q=80"
+                        alt="호기심 가득했던 눈망울"></div>
+                <div class="gallery-item" onclick="openImageModal(this)"><img
+                        src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=1200&auto=format&fit=crop&q=80"
+                        alt="포근한 낮잠 시간"></div>
+                <div class="gallery-item" onclick="openImageModal(this)"><img
+                        src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=1200&auto=format&fit=crop&q=80"
+                        alt="언제나 곁을 지켜주던 모습"></div>
             </div>
         </section>
+
+        <div id="imageModal" class="image-modal" onclick="closeImageModal(event)">
+            <div class="image-modal-content" onclick="event.stopPropagation()">
+                <button type="button" class="btn-modal-close" onclick="closeImageModalDirect()">✕</button>
+                <div class="image-box">
+                    <img id="modalFullImage" src="" alt="확대 이미지">
+                </div>
+                <p id="modalImageCaption" class="modal-image-caption"></p>
+            </div>
+        </div>
 
         <section class="sub-section">
             <div class="sub-header">
@@ -109,11 +119,10 @@
                 <h2 class="sub-title">눈부셨던 날의 영상</h2>
             </div>
             <div class="video-grid">
-                <div class="video-card" onclick="toggleVideoPlay(this)">
+                <div class="video-card"
+                    onclick="openVideoModal('https://vjs.zencdn.net/v/oceans.mp4', '2023.05.21 한강공원', '풀냄새 맡으며 신나게 달리던 어느 봄날 오후의 코코')">
                     <div class="video-wrapper">
-                        <video loop muted playsinline preload="metadata">
-                            <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
-                        </video>
+                        <video src="https://vjs.zencdn.net/v/oceans.mp4" loop muted playsinline preload="auto"></video>
                         <div class="video-play-overlay">
                             <span class="play-icon">▶</span>
                         </div>
@@ -124,12 +133,11 @@
                     </div>
                 </div>
 
-                <div class="video-card" onclick="toggleVideoPlay(this)">
+                <div class="video-card"
+                    onclick="openVideoModal('https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', '2024.08.12 거실 창가', '오후 햇살 받으며 꾸벅꾸벅 졸던 평화로운 순간')">
                     <div class="video-wrapper">
-                        <video loop muted playsinline preload="metadata">
-                            <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-                                type="video/mp4">
-                        </video>
+                        <video src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" loop muted
+                            playsinline preload="auto"></video>
                         <div class="video-play-overlay">
                             <span class="play-icon">▶</span>
                         </div>
@@ -141,6 +149,19 @@
                 </div>
             </div>
         </section>
+
+        <div id="videoModal" class="video-modal" onclick="closeVideoModal(event)">
+            <div class="video-modal-content" onclick="event.stopPropagation()">
+                <button type="button" class="btn-modal-close" onclick="forceCloseModal()">✕</button>
+                <div class="modal-player-box">
+                    <video id="modalVideoPlayer" controls playsinline controlsList="nodownload"></video>
+                </div>
+                <div class="modal-video-meta">
+                    <span id="modalVideoDate" class="modal-date"></span>
+                    <p id="modalVideoDesc" class="modal-desc"></p>
+                </div>
+            </div>
+        </div>
 
         <section class="sub-section">
             <div class="sub-header">
