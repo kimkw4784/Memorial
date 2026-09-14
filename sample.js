@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
         adminFloatBtn.style.display = 'inline-flex';
     }
 
-    // 5. 실제 주문 데이터 화면 바인딩 (이름, 사진, 문구 등)
+    // 5. 실제 주문 데이터 화면 바인딩 (이름, 사진, 문구, 타임라인 등)
     if (order) {
         const petName = order.petName || '하임';
         const slug = roomParam || order.roomSlug || '4K8F2G';
@@ -256,6 +256,27 @@ document.addEventListener('DOMContentLoaded', () => {
             datesEl.innerHTML = `${cleanMeet} — ${cleanFarewell}${daysText}`;
         }
 
+        // ⭐️ [발자취 타임라인 바인딩]: order와 petName이 정상 정의된 여기에 위치해야 에러가 안 납니다!
+        const timelineList = document.getElementById('memorialTimelineList') || document.querySelector('.timeline-list');
+        if (timelineList) {
+            const meetRaw = order.meetDate || '2018.04.10';
+            const farewellRaw = order.farewellDate || '2026.08.20';
+            const meetStr = meetRaw.replace(/\./g, '. ').trim();
+            const farewellStr = farewellRaw.replace(/\./g, '. ').trim();
+            const josa = getSubjectParticle(petName);
+
+            timelineList.innerHTML = `
+        <div class="timeline-item">
+            <span class="timeline-date">${meetStr}</span>
+            <p class="timeline-text">손바닥만 하던 ${petName}${josa} 처음 우리 집에 오던 날, 온 세상이 따뜻해졌어.</p>
+        </div>
+        <div class="timeline-item">
+            <span class="timeline-date">${farewellStr}</span>
+            <p class="timeline-text">가족들의 품에서 조용히 눈을 감고, 가장 빛나는 별이 된 날.</p>
+        </div>
+    `;
+        }
+
         // 선물 & 촛불 인터랙션 초기 세팅
         const interactBtns = document.querySelectorAll('.interactive-row .btn-interact');
         if (interactBtns.length >= 3) {
@@ -291,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
             avatarImg.alt = petName;
         }
 
-        // 선물/촛불 버튼 바로 위 안내 말풍선 (9초 노출 및 닫기 버튼)
+        // 말풍선 안내
         const welcomeKey = `welcomed_${slug}`;
         const interactRow = document.querySelector('.interactive-row');
 
