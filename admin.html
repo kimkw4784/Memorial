@@ -38,6 +38,29 @@
             <!-- JS 동적 렌더링 영역 -->
         </main>
 
+        <section class="admin-timeline-section">
+            <div class="section-title-box">
+                <span class="header-tag">MEMORIAL TIMELINE</span>
+                <h2 class="section-sub-title">발자취 타임라인 관리</h2>
+                <p class="section-desc">아이와 함께 걸어온 소중한 날들을 시간 순서대로 기록해보세요.</p>
+            </div>
+
+            <!-- 발자취 등록 폼 -->
+            <form class="timeline-form" onsubmit="handleAddTimeline(event)">
+                <div class="timeline-input-row">
+                    <input type="date" id="timelineDate" class="timeline-input date-picker-input" required>
+                    <input type="text" id="timelineStory" class="timeline-input text-input" placeholder="기억할 순간을 남겨주세요"
+                        required>
+                    <button type="submit" class="btn-timeline-add">+ 등록</button>
+                </div>
+            </form>
+
+            <!-- 등록된 타임라인 리스트 -->
+            <div class="admin-timeline-list" id="adminTimelineList">
+                <!-- JS로 동적 렌더링 -->
+            </div>
+        </section>
+
         <div class="admin-footer-links">
             <a href="sample.html" class="link-btn">← 추모관 메인으로 이동</a>
         </div>

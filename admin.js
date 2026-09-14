@@ -1,5 +1,15 @@
 let currentFilter = 'pending';
 
+function normalizeDate(dateStr) {
+    if (!dateStr) return '';
+    // 숫자만 추출 후 'YYYY. MM. DD.' 형태로 조립
+    const cleaned = dateStr.replace(/[^\d]/g, '');
+    if (cleaned.length === 8) {
+        return `${cleaned.slice(0, 4)}. ${cleaned.slice(4, 6)}. ${cleaned.slice(6, 8)}.`;
+    }
+    return dateStr.trim();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const rawData = localStorage.getItem('recentMemorialOrder');
     if (rawData) {
@@ -9,8 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     renderCards();
+    renderAdminTimeline();
 });
 
+// =========================================
+// 1. 지인 사진/영상 검수 로직
+// =========================================
 function getMemories() {
     return JSON.parse(localStorage.getItem('pendingMemories') || '[]');
 }
@@ -23,7 +37,6 @@ function setFilter(filter) {
     currentFilter = filter;
     document.querySelectorAll('.filter-tab').forEach(btn => btn.classList.remove('active'));
 
-    // 클릭된 버튼 활성화
     const clickedBtn = Array.from(document.querySelectorAll('.filter-tab')).find(btn =>
         btn.getAttribute('onclick')?.includes(`'${filter}'`)
     );
@@ -46,7 +59,6 @@ function updateCounts(list) {
     if (uEl) uEl.innerText = uCount;
 }
 
-// 개별 사진 토글
 function toggleFileExclude(itemId, fileIndex) {
     const list = getMemories();
     const item = list.find(m => m.id === itemId);
@@ -57,7 +69,6 @@ function toggleFileExclude(itemId, fileIndex) {
     renderCards();
 }
 
-// 해당 카드의 전체 사진 선택 / 전체 해제
 function toggleAllFiles(itemId) {
     const list = getMemories();
     const item = list.find(m => m.id === itemId);
@@ -72,7 +83,6 @@ function toggleAllFiles(itemId) {
     renderCards();
 }
 
-// 1. 사진 분리 결정 시 원본 정보(originId, originFiles)를 함께 보존
 function applyMediaDecision(itemId) {
     const list = getMemories();
     const index = list.findIndex(m => m.id === itemId);
@@ -82,15 +92,12 @@ function applyMediaDecision(itemId) {
     const approvedFiles = currentItem.files.filter(f => !f.excluded);
     const unpostedFiles = currentItem.files.filter(f => f.excluded);
 
-    // 원본 ID 추적 (이미 분리된 적 있다면 기존 originId 유지, 처음이면 현재 id)
     const originId = currentItem.originId || currentItem.id;
-    // 원래 전체 사진 세트 보존
     const fullOriginalFiles = currentItem.originFiles || JSON.parse(JSON.stringify(currentItem.files));
 
     list.splice(index, 1);
 
     if (approvedFiles.length > 0 && unpostedFiles.length > 0) {
-        // [일부 승인 + 일부 제외]: 두 개로 분리하되, 원본 추적 꼬리표를 달아둠
         const approvedItem = {
             ...currentItem,
             id: 'MEM-APP-' + Date.now(),
@@ -113,14 +120,12 @@ function applyMediaDecision(itemId) {
         showToast(`${approvedFiles.length}장은 전시 승인, ${unpostedFiles.length}장은 제외 탭으로 이동했습니다.`);
 
     } else if (approvedFiles.length > 0 && unpostedFiles.length === 0) {
-        // [전체 승인]
         currentItem.status = 'approved';
         currentItem.files.forEach(f => f.excluded = false);
         list.unshift(currentItem);
         showToast("모든 사진이 전시 승인되었습니다.");
 
     } else {
-        // [전체 제외]
         currentItem.status = 'unposted';
         currentItem.files.forEach(f => f.excluded = true);
         list.unshift(currentItem);
@@ -131,34 +136,26 @@ function applyMediaDecision(itemId) {
     renderCards();
 }
 
-// 2. 다시 검수 시: 분리되었던 짝꿍 카드를 함께 찾아 3장 원본 1개로 복구
 function revertStatus(itemId) {
     let list = getMemories();
     const targetItem = list.find(m => m.id === itemId);
     if (!targetItem) return;
 
-    // 분리되어 나뉘어졌던 카드인지 확인
     if (targetItem.originId && targetItem.originFiles) {
         const oId = targetItem.originId;
-
-        // 원본 3장 데이터를 가진 깨끗한 복원 카드 생성
         const restoredOriginalItem = {
             ...targetItem,
             id: oId,
             status: 'pending',
-            files: targetItem.originFiles.map(f => ({ ...f, excluded: false })), // 모두 체크된 상태로 복원
+            files: targetItem.originFiles.map(f => ({ ...f, excluded: false })),
             originId: undefined,
             originFiles: undefined
         };
 
-        // 승인탭, 제외탭에 쪼개져 흩어져 있던 관련 카드들을 목록에서 전부 제거
         list = list.filter(m => m.id !== itemId && m.originId !== oId && m.id !== oId);
-
-        // 복원된 3장 원본 카드 1개만 대기함 맨 앞에 삽입
         list.unshift(restoredOriginalItem);
 
     } else {
-        // 쪼개지지 않고 통째로 넘어갔던 카드 복귀
         targetItem.status = 'pending';
         if (targetItem.files) {
             targetItem.files.forEach(f => f.excluded = false);
@@ -166,7 +163,7 @@ function revertStatus(itemId) {
     }
 
     saveMemories(list);
-    showToast("처음 받았던 3장 전체가 대기함으로 복원되었습니다.");
+    showToast("처음 받았던 전체 사진이 대기함으로 복원되었습니다.");
     setFilter('pending');
 }
 
@@ -232,12 +229,10 @@ function renderCards() {
             mediaHtml += '</div>';
         }
 
-        // 1. 헤더 우측 액션: 대기 탭일 때는 비워두고, 승인/제외 탭일 때만 '다시 검수' 버튼 노출
         const topActionHtml = (currentFilter === 'pending')
             ? ''
             : `<button type="button" class="btn-revert-mini" onclick="revertStatus('${item.id}')">↩ 다시 검수</button>`;
 
-        // 2. 하단 액션바: 대기 탭일 때만 결정 버튼 노출
         let actionBarHtml = '';
         if (currentFilter === 'pending') {
             const hasChecked = checkedCount > 0;
@@ -257,7 +252,6 @@ function renderCards() {
             `;
         }
 
-        // 3. 카드 조립 (헤더 좌측: 이름+관계+날짜, 헤더 우측: 다시검수 버튼)
         card.innerHTML = `
             <div class="card-top-info">
                 <div class="sender-profile">
@@ -274,6 +268,146 @@ function renderCards() {
 
         container.appendChild(card);
     });
+}
+
+// =========================================
+// 2. 발자취 타임라인 관리 로직 (CRUD)
+// =========================================
+function getTimelineList() {
+    const raw = localStorage.getItem('memorial_timeline_list');
+    if (raw) return JSON.parse(raw);
+
+    const orderRaw = localStorage.getItem('recentMemorialOrder');
+    const order = orderRaw ? JSON.parse(orderRaw) : {};
+    const name = order.petName || '아이';
+
+    const defaultList = [
+        {
+            id: 'TL-1',
+            date: normalizeDate(order.meetDate) || '2013.05.10',
+            story: `손바닥만 하던 ${name}이가 처음 우리 집에 오던 날, 온 세상이 따뜻해졌어.`
+        },
+        {
+            id: 'TL-2',
+            date: normalizeDate(order.farewellDate) || '2026.02.15',
+            story: '가족들의 품에서 조용히 눈을 감고, 가장 빛나는 별이 된 날.'
+        }
+    ];
+    localStorage.setItem('memorial_timeline_list', JSON.stringify(defaultList));
+    return defaultList;
+}
+
+function renderAdminTimeline() {
+    const list = getTimelineList();
+    const container = document.getElementById('adminTimelineList');
+    if (!container) return;
+
+    if (list.length === 0) {
+        container.innerHTML = `<div class="empty-state" style="padding: 24px;">등록된 발자취가 없습니다.</div>`;
+        return;
+    }
+
+    // YYYY.MM.DD 기준 오름차순(과거 -> 최신) 정렬
+    list.sort((a, b) => {
+        const timeA = new Date(a.date.replace(/\./g, '-')).getTime() || 0;
+        const timeB = new Date(b.date.replace(/\./g, '-')).getTime() || 0;
+        return timeA - timeB;
+    });
+
+    container.innerHTML = list.map(item => `
+        <div class="admin-timeline-item" id="tlItem-${item.id}">
+            <div class="admin-tl-meta">
+                <span class="admin-tl-date">${item.date}</span>
+                <span class="admin-tl-text">${item.story}</span>
+            </div>
+            <div class="admin-tl-actions">
+                <button type="button" class="btn-tl-edit" onclick="startEditTimeline('${item.id}')">수정</button>
+                <button type="button" class="btn-tl-delete" onclick="deleteTimelineItem('${item.id}')">삭제</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function handleAddTimeline(e) {
+    e.preventDefault();
+    const dateInput = document.getElementById('timelineDate');
+    const storyInput = document.getElementById('timelineStory');
+
+    const formattedDate = normalizeDate(dateInput.value);
+    const storyVal = storyInput.value.trim();
+
+    if (!formattedDate || !storyVal) return;
+
+    const list = getTimelineList();
+    list.push({
+        id: 'TL-' + Date.now(),
+        date: formattedDate,
+        story: storyVal
+    });
+
+    localStorage.setItem('memorial_timeline_list', JSON.stringify(list));
+    renderAdminTimeline();
+    showToast("발자취가 등록되었습니다.");
+
+    dateInput.value = '';
+    storyInput.value = '';
+}
+
+function startEditTimeline(id) {
+    const list = getTimelineList();
+    const target = list.find(item => item.id === id);
+    if (!target) return;
+
+    const itemEl = document.getElementById(`tlItem-${id}`);
+    if (!itemEl) return;
+
+    itemEl.classList.add('editing');
+    const nums = target.date.replace(/[^\d]/g, '');
+    const pickerVal = `${nums.slice(0, 4)}-${nums.slice(4, 6)}-${nums.slice(6, 8)}`;
+
+    itemEl.innerHTML = `
+        <form class="edit-mode-form" onsubmit="saveEditTimeline(event, '${id}')">
+            <input type="date" id="editDate-${id}" class="edit-input-date" value="${pickerVal}" required>
+            <input type="text" id="editStory-${id}" class="edit-input-story" value="${target.story}" required>
+            <div class="edit-action-row">
+                <button type="submit" class="btn-edit-save">완료</button>
+                <button type="button" class="btn-edit-cancel" onclick="renderAdminTimeline()">취소</button>
+            </div>
+        </form>
+    `;
+}
+
+function saveEditTimeline(e, id) {
+    e.preventDefault();
+    const dateVal = document.getElementById(`editDate-${id}`).value;
+    const storyVal = document.getElementById(`editStory-${id}`).value.trim();
+
+    if (!dateVal || !storyVal) return;
+
+    let list = getTimelineList();
+    const idx = list.findIndex(item => item.id === id);
+    if (idx !== -1) {
+        list[idx].date = normalizeDate(dateVal);
+        list[idx].story = storyVal;
+        localStorage.setItem('memorial_timeline_list', JSON.stringify(list));
+        showToast("발자취가 수정되었습니다.");
+    }
+
+    renderAdminTimeline();
+    list.sort((a, b) => {
+        const numA = parseInt(a.date.replace(/[^\d]/g, ''), 10) || 0;
+        const numB = parseInt(b.date.replace(/[^\d]/g, ''), 10) || 0;
+        return numA - numB;
+    });
+}
+
+function deleteTimelineItem(id) {
+    if (!confirm("이 발자취를 삭제하시겠습니까?")) return;
+    let list = getTimelineList();
+    list = list.filter(item => item.id !== id);
+    localStorage.setItem('memorial_timeline_list', JSON.stringify(list));
+    renderAdminTimeline();
+    showToast("발자취가 삭제되었습니다.");
 }
 
 function showToast(message) {

@@ -1,9 +1,9 @@
 // 한글 받침 유무에 따른 주격 조사(이/가) 판별 함수
 function getSubjectParticle(name) {
-    if (!name) return '가';
+    if (!name) return '이';
     const lastChar = name.charCodeAt(name.length - 1);
-    if (lastChar < 0xAC00 || lastChar > 0xD7A3) return '가';
-    return (lastChar - 0xAC00) % 28 > 0 ? '이가' : '가';
+    if (lastChar < 0xAC00 || lastChar > 0xD7A3) return '이';
+    return (lastChar - 0xAC00) % 28 > 0 ? '이' : '가';
 }
 
 const bgmAudio = new Audio();
@@ -256,25 +256,34 @@ document.addEventListener('DOMContentLoaded', () => {
             datesEl.innerHTML = `${cleanMeet} — ${cleanFarewell}${daysText}`;
         }
 
-        // ⭐️ [발자취 타임라인 바인딩]: order와 petName이 정상 정의된 여기에 위치해야 에러가 안 납니다!
+        // ⭐️ [발자취 타임라인 바인딩]: 관리자 추가 목록 반영 + 날짜순 정렬
         const timelineList = document.getElementById('memorialTimelineList') || document.querySelector('.timeline-list');
         if (timelineList) {
-            const meetRaw = order.meetDate || '2018.04.10';
-            const farewellRaw = order.farewellDate || '2026.08.20';
-            const meetStr = meetRaw.replace(/\./g, '. ').trim();
-            const farewellStr = farewellRaw.replace(/\./g, '. ').trim();
+            const rawTL = localStorage.getItem('memorial_timeline_list');
             const josa = getSubjectParticle(petName);
 
-            timelineList.innerHTML = `
-        <div class="timeline-item">
-            <span class="timeline-date">${meetStr}</span>
-            <p class="timeline-text">손바닥만 하던 ${petName}${josa} 처음 우리 집에 오던 날, 온 세상이 따뜻해졌어.</p>
-        </div>
-        <div class="timeline-item">
-            <span class="timeline-date">${farewellStr}</span>
-            <p class="timeline-text">가족들의 품에서 조용히 눈을 감고, 가장 빛나는 별이 된 날.</p>
-        </div>
-    `;
+            // 관리자 추가 데이터가 있으면 사용, 없으면 개설 시 날짜 2개 기본값 생성
+            let tlData = rawTL ? JSON.parse(rawTL) : [
+                {
+                    date: (order.meetDate ? order.meetDate.replace(/\./g, '. ').trim() : '처음 만난 날'),
+                    story: `손바닥만 하던 ${petName}${josa} 처음 우리 집에 오던 날, 온 세상이 따뜻해졌어.`
+                },
+                {
+                    date: (order.farewellDate ? order.farewellDate.replace(/\./g, '. ').trim() : '별이 된 날'),
+                    story: '가족들의 품에서 조용히 눈을 감고, 가장 빛나는 별이 된 날.'
+                }
+            ];
+
+            // 시간 순서(오름차순) 정렬
+            tlData.sort((a, b) => new Date(a.date.replace(/\./g, '-')) - new Date(b.date.replace(/\./g, '-')));
+
+            // 동적 렌더링
+            timelineList.innerHTML = tlData.map(item => `
+                <div class="timeline-item">
+                    <span class="timeline-date">${item.date}</span>
+                    <p class="timeline-text">${item.story}</p>
+                </div>
+            `).join('');
         }
 
         // 선물 & 촛불 인터랙션 초기 세팅
