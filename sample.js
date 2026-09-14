@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctaBanner.style.display = 'none';
     }
 
-    // 3. 주문 데이터 로드 (recentMemorialOrder 우선 -> memorialOrders 탐색 순)
+    // 3. 주문 데이터 로드
     let rawData = localStorage.getItem('recentMemorialOrder');
     let order = rawData ? JSON.parse(rawData) : null;
 
@@ -209,14 +209,13 @@ document.addEventListener('DOMContentLoaded', () => {
         adminFloatBtn.style.display = 'inline-flex';
     }
 
-    // 5. 실제 주문 데이터 화면 바인딩 (이름, 사진, 문구, 타임라인 등)
+    // 5. 실제 주문 데이터 화면 바인딩 (주문 정보가 있을 때만 덮어씌움)
     if (order) {
         const petName = order.petName || '하임';
         const slug = roomParam || order.roomSlug || '4K8F2G';
 
         document.title = `${petName}의 기억의 숲 | MEMORIAL`;
 
-        // 상단 타이틀 및 이름들 변경
         const nameEl = document.getElementById('memorialPetName');
         if (nameEl) nameEl.innerText = petName;
 
@@ -236,7 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
             quoteEl.innerHTML = `“${order.quote.replace(/\n/g, '<br>')}”`;
         }
 
-        // 날짜 & 함께한 일수 계산
         const datesEl = document.querySelector('.intro-dates');
         if (datesEl && (order.meetDate || order.farewellDate)) {
             const cleanMeet = order.meetDate ? order.meetDate.replace(/\s+/g, '').replace(/\.$/, '') : '';
@@ -256,37 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
             datesEl.innerHTML = `${cleanMeet} — ${cleanFarewell}${daysText}`;
         }
 
-        // ⭐️ [발자취 타임라인 바인딩]: 관리자 추가 목록 반영 + 날짜순 정렬
-        const timelineList = document.getElementById('memorialTimelineList') || document.querySelector('.timeline-list');
-        if (timelineList) {
-            const rawTL = localStorage.getItem('memorial_timeline_list');
-            const josa = getSubjectParticle(petName);
-
-            // 관리자 추가 데이터가 있으면 사용, 없으면 개설 시 날짜 2개 기본값 생성
-            let tlData = rawTL ? JSON.parse(rawTL) : [
-                {
-                    date: (order.meetDate ? order.meetDate.replace(/\./g, '. ').trim() : '처음 만난 날'),
-                    story: `손바닥만 하던 ${petName}${josa} 처음 우리 집에 오던 날, 온 세상이 따뜻해졌어.`
-                },
-                {
-                    date: (order.farewellDate ? order.farewellDate.replace(/\./g, '. ').trim() : '별이 된 날'),
-                    story: '가족들의 품에서 조용히 눈을 감고, 가장 빛나는 별이 된 날.'
-                }
-            ];
-
-            // 시간 순서(오름차순) 정렬
-            tlData.sort((a, b) => new Date(a.date.replace(/\./g, '-')) - new Date(b.date.replace(/\./g, '-')));
-
-            // 동적 렌더링
-            timelineList.innerHTML = tlData.map(item => `
-                <div class="timeline-item">
-                    <span class="timeline-date">${item.date}</span>
-                    <p class="timeline-text">${item.story}</p>
-                </div>
-            `).join('');
-        }
-
-        // 선물 & 촛불 인터랙션 초기 세팅
         const interactBtns = document.querySelectorAll('.interactive-row .btn-interact');
         if (interactBtns.length >= 3) {
             const gift1Text = order.gift1 || '좋아하던 간식';
@@ -297,7 +264,6 @@ document.addEventListener('DOMContentLoaded', () => {
             interactBtns[2].innerHTML = `<span class="btn-dot"></span> 촛불 밝히기 <strong class="cnt">1</strong>`;
         }
 
-        // BGM 자동 선택
         if (order.bgm) {
             const select = document.getElementById('bgmSelect');
             if (select) {
@@ -314,16 +280,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 대표 사진 교체
         const avatarImg = document.querySelector('.intro-avatar-frame img');
-        if (avatarImg) {
-            if (order && order.petPhoto) {
-                avatarImg.src = order.petPhoto;
-                avatarImg.alt = petName;
-            }
+        if (avatarImg && order.petPhoto) {
+            avatarImg.src = order.petPhoto;
+            avatarImg.alt = petName;
         }
 
-        // 말풍선 안내
         const welcomeKey = `welcomed_${slug}`;
         const interactRow = document.querySelector('.interactive-row');
 
@@ -357,6 +319,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(closeBubble, 9000);
             }, 700);
         }
+    }
+
+    // ⭐️ [발자취 타임라인 바인딩]: order 유무에 구애받지 않고 항상 실행
+    const timelineList = document.getElementById('memorialTimelineList') || document.querySelector('.timeline-list');
+    if (timelineList) {
+        const rawTL = localStorage.getItem('memorial_timeline_list');
+        const activeName = (order && order.petName) ? order.petName : '코코';
+        const josa = getSubjectParticle(activeName);
+
+        // 관리자 추가 데이터가 있으면 그것을 사용, 없으면 기본값 노출
+        let tlData = rawTL ? JSON.parse(rawTL) : [
+            {
+                date: (order && order.meetDate) ? order.meetDate.replace(/\./g, '. ').trim() : '2013. 05. 10.',
+                story: `손바닥만 하던 ${activeName}${josa} 처음 우리 집에 오던 날, 온 세상이 따뜻해졌어.`
+            },
+            {
+                date: (order && order.farewellDate) ? order.farewellDate.replace(/\./g, '. ').trim() : '2026. 02. 15.',
+                story: '가족들의 품에서 조용히 눈을 감고, 가장 빛나는 별이 된 날.'
+            }
+        ];
+
+        // 숫자 크기 기준 오름차순(과거 -> 최신) 정렬
+        tlData.sort((a, b) => {
+            const numA = parseInt(a.date.replace(/[^\d]/g, ''), 10) || 0;
+            const numB = parseInt(b.date.replace(/[^\d]/g, ''), 10) || 0;
+            return numA - numB;
+        });
+
+        timelineList.innerHTML = tlData.map(item => `
+            <div class="timeline-item">
+                <span class="timeline-date">${item.date}</span>
+                <p class="timeline-text">${item.story}</p>
+            </div>
+        `).join('');
     }
 
     loadLetters();
@@ -477,4 +473,4 @@ function showToast(message) {
     setTimeout(() => {
         toast.classList.remove("show");
     }, 2500);
-} 
+}
