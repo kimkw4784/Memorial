@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코코와의 추억 모으기 | 온새미로</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Pretendard:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="sample.css">
+    <link rel="stylesheet" href="upload.css">
+</head>
+
+<body class="upload-body">
+
+    <div class="upload-page">
+        <header class="upload-header">
+            <span class="upload-badge">Memory Gathering</span>
+            <h1 class="upload-title"><span id="targetPetName">코코</span>와의 추억 한 조각을<br>보내주세요</h1>
+            <p class="upload-guide">
+                여러분이 기억하는 <span id="targetPetGuide">코코</span>의 따뜻한 순간들을 모아 온라인 추모관에 소중히 전시하려 합니다. 함께 찍은 사진이나 기억에 남는 이야기를
+                남겨주세요.
+            </p>
+        </header>
+
+        <main class="upload-form-card">
+            <form id="memoryForm" onsubmit="handleUploadSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">보내는 분 성함 <span>*</span></label>
+                        <input type="text" id="senderName" class="form-input" placeholder="예: 민수" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">코코와의 관계 <span>*</span></label>
+                        <input type="text" id="senderRelation" class="form-input" placeholder="예: 이모, 형, 친구" required>
+                    </div>
+                </div>
+
+                <div class="form-group upload-group-margin">
+                    <label class="form-label">사진 및 영상 첨부 <span>(최대 3개)</span></label>
+                    <div class="file-upload-box" onclick="document.getElementById('fileInput').click()">
+                        <span class="file-upload-icon">📷</span>
+                        <div class="file-upload-text">사진 또는 영상을 선택하거나 터치해 주세요</div>
+                        <div class="file-upload-sub">JPG, PNG, GIF, MP4, MOV 파일 지원</div>
+                    </div>
+                    <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.gif,.mp4,.mov" multiple
+                        onchange="handleFileSelect(event)">
+
+                    <div class="file-upload-tip">
+                        <svg class="tip-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="10" cy="10" r="8.25" stroke="currentColor" stroke-width="1.5" />
+                            <path d="M10 9V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                            <circle cx="10" cy="6.25" r="1" fill="currentColor" />
+                        </svg>
+                        <div class="tip-desc">
+                            모바일에서는 기기 보호를 위해 <strong>파일당 최대 200MB</strong>까지 업로드하실 수 있습니다.<br>
+                            2분 이상의 긴 영상이나 고화질 원본은 <strong>현재 링크 그대로 PC에서 접속하시면<br>최대 500MB</strong>까지 멈춤 없이 안전하게 담으실 수
+                            있습니다.
+                        </div>
+                    </div>
+
+                    <div class="preview-grid" id="previewGrid"></div>
+                </div>
+
+                <div class="form-group upload-group-margin">
+                    <label class="form-label">함께했던 이야기 <span>*</span></label>
+                    <textarea id="memoryStory" class="form-textarea"
+                        placeholder="언제 찍은 사진인지, 또는 코코와 함께했던 소중한 추억 이야기를 자유롭게 적어주세요." maxlength="1000"
+                        required></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit-upload">추억 보내기</button>
+            </form>
+        </main>
+
+        <div class="back-link-box">
+            <a href="sample.html" class="back-link">← 추모관으로 돌아가기</a>
+        </div>
+    </div>
+
+    <div id="toastMessage" class="toast-popup">소중한 추억이 전달되었습니다.</div>
+
+    <div id="compressLoading" class="compress-loading-overlay" style="display: none;">
+        <div class="compress-spinner"></div>
+        <p class="compress-text">소중한 추억을 따뜻하게 담아내고 있어요...<br><span id="compressProgress">잠시만 기다려 주세요</span></p>
+    </div>
+    <script src="upload.js"></script>
+</body>
+
+</html>

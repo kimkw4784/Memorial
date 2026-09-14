@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>소장 신청 완료 | MEMORIAL 기억의 숲</title>
+
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+KR:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- 분리된 전용 CSS 연결 -->
+    <link rel="stylesheet" href="complete.css">
+</head>
+
+<body class="complete-page-body">
+
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-en">MEMORIAL</span>
+                <span class="logo-kr">기억의 숲</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="complete-container">
+        <div class="complete-card">
+            <!-- 상단 완료 아이콘 및 안내 -->
+            <div class="complete-header">
+                <div class="complete-check-icon">✓</div>
+                <span class="complete-tag">ORDER COMPLETED</span>
+                <h1 class="complete-title">추모관 개설이 완료되었습니다</h1>
+                <p class="complete-desc">
+                    <strong id="applicantDisplay">보호자</strong>님, 아이와 함께한 소중한 시간들이<br>
+                    시간을 넘어 영원히 기억될 안식처로 기록되었습니다.
+                </p>
+            </div>
+
+            <!-- [1그룹] 주문 확인 + 감동 멘트 묶음 -->
+            <div class="complete-group-box">
+                <div class="complete-summary">
+                    <div class="summary-row">
+                        <span class="summary-label">주문 번호</span>
+                        <span class="summary-val" id="orderNumberDisplay">ORD-4K8F2G</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">추모관 명칭</span>
+                        <span class="summary-val" id="petNameDisplay">코코의 기억의 숲</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">선택 플랜</span>
+                        <span class="summary-val" id="planDisplay">디지털 소장권 (19,500원)</span>
+                    </div>
+                </div>
+
+                <div class="group-inner-banner welcome-banner">
+                    <span class="banner-icon">🕯️</span>
+                    <p>
+                        보호자님이 오실 때까지 <strong id="noticePetName">아이</strong><span id="noticePetJosa">가</span> 심심하지
+                        않도록<br>
+                        온새미로가 먼저 따뜻한 촛불을 켜고 선물도 건네두었습니다.
+                    </p>
+                </div>
+            </div>
+
+            <!-- [2그룹] 발급 링크 2개 + 안심 발송 안내 묶음 -->
+            <div class="complete-group-box links-group-box">
+                <div class="inner-link-item link-item-highlight">
+                    <div class="link-item-header">
+                        <span class="link-badge badge-accent">공유용</span>
+                        <strong>온 가족 공식 추모관 링크</strong>
+                    </div>
+                    <p class="link-desc">가족과 지인들에게 공유하여 온기를 나눌 수 있는 주소입니다.</p>
+                    <div class="link-input-group">
+                        <input type="text" id="memorialLinkInput" class="form-input" readonly>
+                        <button type="button" class="btn btn-secondary btn-copy"
+                            onclick="copyLink('memorialLinkInput')">복사</button>
+                    </div>
+                </div>
+
+                <div class="inner-link-item">
+                    <div class="link-item-header">
+                        <span class="link-badge">사진 취합</span>
+                        <strong>지인 사진 모으기 (비공개 취합함)</strong>
+                    </div>
+                    <!-- 1. 취합 목적 명시 -->
+                    <p class="link-desc">지인들이 간직한 사진·영상을 보호자님께 직접 전달하는 전용 링크입니다.</p>
+
+                    <div class="link-input-group">
+                        <input type="text" id="uploadLinkInput" class="form-input" readonly>
+                        <button type="button" class="btn btn-secondary btn-copy"
+                            onclick="copyLink('uploadLinkInput')">복사</button>
+                    </div>
+
+                    <!-- 2. 관리자 검토/승인 안심 안내 -->
+                    <div class="link-item-tip">
+                        <span>✓</span> 보내온 사진/영상은 관리자 화면에서 보호자님이 승인한 것만 갤러리에 공개됩니다.
+                    </div>
+                </div>
+
+                <div class="group-inner-banner sms-banner">
+                    <span class="banner-icon">💬</span>
+                    <p>
+                        위 주소들은 따로 저장해두지 않으셔도 괜찮습니다.<br>
+                        언제든 <strong id="smsPetName">아이</strong><span id="smsPetJosa">를</span> 보러 다시 찾아오실 수 있도록<br>
+                        적어주신 휴대폰 번호로 알림톡(문자) 발송을 마쳤습니다.
+                    </p>
+                </div>
+            </div>
+
+            <!-- [하단 액션 버튼 2개] -->
+            <div class="complete-actions">
+                <a href="sample.html" id="viewMemorialBtn" class="btn btn-primary btn-full">추모관 둘러보기 →</a>
+                <a href="admin.html" id="adminManageBtn" class="btn btn-secondary btn-full btn-admin">⚙️ 추모관 관리자 화면으로
+                    가기</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="complete.js"></script>
+</body>
+
+</html>

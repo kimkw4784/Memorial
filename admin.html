@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>추억 조각 검수함 | 온새미로 관리자</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Pretendard:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="header-tag">FAMILY ARCHIVE ADMIN</div>
+            <h1 class="admin-title"><span id="adminPetName">코코</span>에게 도착한 추억들</h1>
+            <p class="admin-desc">지인분들이 보내주신 소중한 사진과 이야기입니다.<br>선택하여 승인한 사진만 메인 추모관 갤러리에 공개됩니다.</p>
+        </header>
+
+        <!-- 상태 필터 탭 -->
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="setFilter('pending')">확인 대기 중 <span id="countPending"
+                    class="badge">0</span></button>
+            <button class="filter-tab" onclick="setFilter('approved')">전시 승인됨 <span id="countApproved"
+                    class="badge">0</span></button>
+            <button class="filter-tab" onclick="setFilter('unposted')">제외됨 <span id="countUnposted"
+                    class="badge">0</span></button>
+        </div>
+
+        <!-- 추억 카드 목록 컨테이너 -->
+        <main id="memoryCardList" class="memory-card-list">
+            <!-- JS 동적 렌더링 영역 -->
+        </main>
+
+        <div class="admin-footer-links">
+            <a href="sample.html" class="link-btn">← 추모관 메인으로 이동</a>
+        </div>
+    </div>
+
+    <div id="toastMessage" class="toast-popup">상태가 업데이트되었습니다.</div>
+
+    <script src="admin.js"></script>
+</body>
+
+</html>

@@ -1,3 +1,11 @@
+// 한글 받침 유무에 따른 주격 조사(이/가) 판별 함수
+function getSubjectParticle(name) {
+    if (!name) return '가';
+    const lastChar = name.charCodeAt(name.length - 1);
+    if (lastChar < 0xAC00 || lastChar > 0xD7A3) return '가';
+    return (lastChar - 0xAC00) % 28 > 0 ? '이가' : '가';
+}
+
 const bgmAudio = new Audio();
 bgmAudio.loop = true;
 bgmAudio.volume = 0.4;
@@ -55,13 +63,11 @@ function addInteractCount(btn) {
     }
 }
 
-// 기본 샘플 데이터 (초기 방문 시 노출용)
 const DEFAULT_LETTERS = [
-    { name: "수진", relation: "누나", msg: "코코야, 네가 없으니 방이 너무 조용해. 꿈속에 꼭 한번 놀러 와줘. 보고 싶다.", date: "2026.08.16" },
+    { name: "수진", relation: "누나", msg: "네가 없으니 방이 너무 조용해. 꿈속에 꼭 한번 놀러 와줘. 보고 싶다.", date: "2026.08.16" },
     { name: "민규", relation: "삼촌", msg: "갈 때마다 반갑게 꼬리 흔들어주던 모습이 생생하다. 좋은 곳에서 편히 쉬렴.", date: "2026.08.15" }
 ];
 
-// 로컬스토리지에서 편지 불러오기 및 렌더링
 function loadLetters() {
     const list = document.getElementById('letterList');
     if (!list) return;
@@ -117,8 +123,212 @@ function handleLetterSubmit(e) {
     msgInput.value = '';
 }
 
+function loadApprovedMemories() {
+    const rawMemories = localStorage.getItem('pendingMemories');
+    if (!rawMemories) return;
+
+    const memories = JSON.parse(rawMemories);
+    const approvedList = memories.filter(item => item.status === 'approved');
+
+    const photoGrid = document.querySelector('.gallery-grid');
+    const videoGrid = document.querySelector('.video-grid');
+
+    approvedList.forEach(item => {
+        if (!item.files || item.files.length === 0) return;
+
+        item.files.filter(f => !f.excluded).forEach(f => {
+            const senderTag = `${item.relation} ${item.sender}`;
+            const captionText = item.story ? `${item.story} (${senderTag})` : senderTag;
+
+            if (f.type === 'video' && videoGrid) {
+                const videoCard = document.createElement('div');
+                videoCard.className = 'video-card';
+                videoCard.onclick = () => openVideoModal(f.data, `${item.submittedAt} · ${senderTag}`, item.story || '보내주신 소중한 영상입니다.');
+
+                videoCard.innerHTML = `
+                    <div class="video-wrapper">
+                        <video src="${f.data}" loop muted playsinline preload="auto"></video>
+                        <div class="video-play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-date">${item.submittedAt} · ${senderTag}</span>
+                        <p class="video-desc">${item.story || '보내주신 소중한 영상입니다.'}</p>
+                    </div>
+                `;
+                videoGrid.prepend(videoCard);
+
+            } else if (photoGrid) {
+                const photoItem = document.createElement('div');
+                photoItem.className = 'gallery-item approved-memory';
+                photoItem.onclick = function () { openImageModal(this); };
+
+                photoItem.innerHTML = `
+                    <img src="${f.data}" alt="${captionText}">
+                `;
+                photoGrid.prepend(photoItem);
+            }
+        });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. URL 쿼리 파싱
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomParam = urlParams.get('room');
+    const isAdminParam = urlParams.get('admin') === 'true';
+
+    // 2. 개설 추모관일 경우 세일즈 CTA 배너 숨김
+    const ctaBanner = document.querySelector('.sample-cta-banner');
+    if (roomParam && ctaBanner) {
+        ctaBanner.style.display = 'none';
+    }
+
+    // 3. 주문 데이터 로드 (recentMemorialOrder 우선 -> memorialOrders 탐색 순)
+    let rawData = localStorage.getItem('recentMemorialOrder');
+    let order = rawData ? JSON.parse(rawData) : null;
+
+    if (!order && roomParam) {
+        const allOrders = localStorage.getItem('memorialOrders');
+        if (allOrders) {
+            try {
+                const list = JSON.parse(allOrders);
+                order = list.find(item => item.roomSlug === roomParam) || null;
+            } catch (err) {
+                console.log("주문 파싱 에러:", err);
+            }
+        }
+    }
+
+    // 4. 관리자 플로팅 버튼 활성화
+    const adminFloatBtn = document.getElementById('adminFloatingBtn');
+    if (adminFloatBtn && (order || isAdminParam || roomParam)) {
+        const activeSlug = roomParam || (order && order.roomSlug) || '4K8F2G';
+        adminFloatBtn.href = `admin.html?room=${activeSlug}`;
+        adminFloatBtn.style.display = 'inline-flex';
+    }
+
+    // 5. 실제 주문 데이터 화면 바인딩 (이름, 사진, 문구 등)
+    if (order) {
+        const petName = order.petName || '하임';
+        const slug = roomParam || order.roomSlug || '4K8F2G';
+
+        document.title = `${petName}의 기억의 숲 | MEMORIAL`;
+
+        // 상단 타이틀 및 이름들 변경
+        const nameEl = document.getElementById('memorialPetName');
+        if (nameEl) nameEl.innerText = petName;
+
+        const introNameEl = document.querySelector('.intro-name');
+        if (introNameEl) introNameEl.innerText = petName;
+
+        const uploadBtn = document.getElementById('galleryUploadBtn');
+        if (uploadBtn) uploadBtn.href = `upload.html?room=${slug}`;
+
+        const letterMsgInput = document.getElementById('letterMsg');
+        if (letterMsgInput) {
+            letterMsgInput.placeholder = `${petName}에게 전하고 싶은 따뜻한 한마디를 남겨주세요. (최대 1,000자)`;
+        }
+
+        const quoteEl = document.querySelector('.intro-quote');
+        if (quoteEl && order.quote) {
+            quoteEl.innerHTML = `“${order.quote.replace(/\n/g, '<br>')}”`;
+        }
+
+        // 날짜 & 함께한 일수 계산
+        const datesEl = document.querySelector('.intro-dates');
+        if (datesEl && (order.meetDate || order.farewellDate)) {
+            const cleanMeet = order.meetDate ? order.meetDate.replace(/\s+/g, '').replace(/\.$/, '') : '';
+            const cleanFarewell = order.farewellDate ? order.farewellDate.replace(/\s+/g, '').replace(/\.$/, '') : '';
+
+            let daysText = '';
+            if (cleanMeet && cleanFarewell) {
+                const startDate = new Date(cleanMeet.replace(/\./g, '-'));
+                const endDate = new Date(cleanFarewell.replace(/\./g, '-'));
+
+                if (!isNaN(startDate) && !isNaN(endDate)) {
+                    const diffTime = Math.abs(endDate - startDate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                    daysText = ` (함께한 <strong>${diffDays.toLocaleString()}일</strong>의 여정)`;
+                }
+            }
+            datesEl.innerHTML = `${cleanMeet} — ${cleanFarewell}${daysText}`;
+        }
+
+        // 선물 & 촛불 인터랙션 초기 세팅
+        const interactBtns = document.querySelectorAll('.interactive-row .btn-interact');
+        if (interactBtns.length >= 3) {
+            const gift1Text = order.gift1 || '좋아하던 간식';
+            const gift2Text = order.gift2 || '테니스공';
+
+            interactBtns[0].innerHTML = `<span class="btn-dot"></span> ${gift1Text} <strong class="cnt">1</strong>`;
+            interactBtns[1].innerHTML = `<span class="btn-dot"></span> ${gift2Text} <strong class="cnt">1</strong>`;
+            interactBtns[2].innerHTML = `<span class="btn-dot"></span> 촛불 밝히기 <strong class="cnt">1</strong>`;
+        }
+
+        // BGM 자동 선택
+        if (order.bgm) {
+            const select = document.getElementById('bgmSelect');
+            if (select) {
+                for (let i = 0; i < select.options.length; i++) {
+                    const optText = select.options[i].text;
+                    if (order.bgm.includes("오르골") && optText.includes("오르골")) {
+                        select.selectedIndex = i; break;
+                    } else if (order.bgm.includes("기타") && optText.includes("기타")) {
+                        select.selectedIndex = i; break;
+                    } else if (order.bgm.includes("피아노") && optText.includes("피아노")) {
+                        select.selectedIndex = i; break;
+                    }
+                }
+            }
+        }
+
+        // 대표 사진 교체
+        const avatarImg = document.querySelector('.intro-avatar-frame img');
+        if (avatarImg && order.petPhoto) {
+            avatarImg.src = order.petPhoto;
+            avatarImg.alt = petName;
+        }
+
+        // 선물/촛불 버튼 바로 위 안내 말풍선 (9초 노출 및 닫기 버튼)
+        const welcomeKey = `welcomed_${slug}`;
+        const interactRow = document.querySelector('.interactive-row');
+
+        if (interactRow && !sessionStorage.getItem(welcomeKey)) {
+            sessionStorage.setItem(welcomeKey, 'true');
+
+            setTimeout(() => {
+                const josa = getSubjectParticle(petName);
+
+                const bubble = document.createElement('div');
+                bubble.className = 'interact-welcome-bubble';
+                bubble.innerHTML = `
+                    <span>보호자님이 오실 때까지 ${petName}${josa} 외롭지 않게 온새미로가 먼저 촛불을 켜두었습니다 🕯️</span>
+                    <button type="button" class="btn-bubble-close" aria-label="닫기">✕</button>
+                `;
+
+                interactRow.appendChild(bubble);
+
+                const closeBubble = () => {
+                    bubble.classList.remove('show');
+                    setTimeout(() => bubble.remove(), 400);
+                };
+
+                const closeBtn = bubble.querySelector('.btn-bubble-close');
+                if (closeBtn) closeBtn.addEventListener('click', closeBubble);
+
+                requestAnimationFrame(() => {
+                    bubble.classList.add('show');
+                });
+
+                setTimeout(closeBubble, 9000);
+            }, 700);
+        }
+    }
+
     loadLetters();
+    loadApprovedMemories();
 });
 
 let wasBgmPlayingBeforeVideo = false;
@@ -142,7 +352,7 @@ function openVideoModal(videoSrc, dateText, descText) {
     player.src = videoSrc;
     dateElem.innerText = dateText;
     descElem.innerText = descText;
-    player.muted = true;
+    player.muted = false;
 
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -235,4 +445,4 @@ function showToast(message) {
     setTimeout(() => {
         toast.classList.remove("show");
     }, 2500);
-}
+} 

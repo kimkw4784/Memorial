@@ -1,3 +1,20 @@
+window.uploadedImageData = null; // order.js에서도 참조할 수 있도록 window 객체에 할당
+
+document.addEventListener('DOMContentLoaded', () => {
+    flatpickr(".custom-datepicker", {
+        locale: "ko",
+        dateFormat: "Y. m. d.",
+        defaultDate: "today",
+        disableMobile: "true",
+        static: true,
+        onChange: function () {
+            updateLivePreview();
+        }
+    });
+
+    updateLivePreview();
+});
+
 function updateLivePreview() {
     const name = document.getElementById('petNameInput').value || '우리 아이';
     const meetDate = document.getElementById('petMeetInput').value;
@@ -8,18 +25,21 @@ function updateLivePreview() {
     document.getElementById('liveQuoteText').innerText = quote;
 
     if (meetDate && farewellDate) {
-        const start = new Date(meetDate);
-        const end = new Date(farewellDate);
-        const diffTime = Math.abs(end - start);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const cleanStart = meetDate.replace(/\./g, '').trim().replace(/\s+/g, '-');
+        const cleanEnd = farewellDate.replace(/\./g, '').trim().replace(/\s+/g, '-');
 
-        const startStr = meetDate.replace(/-/g, '.');
-        const endStr = farewellDate.replace(/-/g, '.');
+        const start = new Date(cleanStart);
+        const end = new Date(cleanEnd);
 
-        document.getElementById('liveDates').innerHTML = `
-                    <span>${startStr} — ${endStr}</span>
-                    <span class="dates-dday">함께한 ${diffDays.toLocaleString()}일의 여정</span>
-                `;
+        if (!isNaN(start) && !isNaN(end)) {
+            const diffTime = Math.abs(end - start);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            document.getElementById('liveDates').innerHTML = `
+                <span>${meetDate} — ${farewellDate}</span>
+                <span class="dates-dday">함께한 ${diffDays.toLocaleString()}일의 여정</span>
+            `;
+        }
     }
 }
 
@@ -53,14 +73,16 @@ function updateLiveGifts() {
     if (live2) live2.innerText = g2Val;
 }
 
+// 빌더 사진 첨부 시 Base64 저장 및 미리보기 갱신
 function handlePhotoUpload(event) {
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function (e) {
+            window.uploadedImageData = e.target.result;
             const avatar = document.getElementById('liveAvatar');
-            avatar.innerHTML = `<img src="${e.target.result}" alt="업로드된 프로필">`;
-        }
+            avatar.innerHTML = `<img src="${window.uploadedImageData}" alt="업로드된 프로필">`;
+        };
         reader.readAsDataURL(file);
     }
 }
