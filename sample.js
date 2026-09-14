@@ -316,9 +316,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 대표 사진 교체
         const avatarImg = document.querySelector('.intro-avatar-frame img');
-        if (avatarImg && order.petPhoto) {
-            avatarImg.src = order.petPhoto;
-            avatarImg.alt = petName;
+        if (avatarImg) {
+            if (order && order.petPhoto) {
+                avatarImg.src = order.petPhoto;
+                avatarImg.alt = petName;
+            }
         }
 
         // 말풍선 안내
