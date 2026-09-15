@@ -53,14 +53,78 @@ function switchBgm() {
     });
 }
 
-function addInteractCount(btn) {
-    const cntSpan = btn.querySelector('.cnt');
-    if (cntSpan) {
-        let cnt = parseInt(cntSpan.innerText, 10);
-        cntSpan.innerText = cnt + 1;
-        btn.style.transform = 'scale(1.08)';
-        setTimeout(() => { btn.style.transform = 'scale(1)'; }, 150);
+function addInteractCount(btn, type = 'default') {
+    const cntEl = btn.querySelector('.cnt') || btn.querySelector('strong');
+    if (!cntEl) return;
+
+    let currentVal = parseInt(cntEl.innerText.replace(/[^\d]/g, ''), 10) || 0;
+    cntEl.innerText = currentVal + 1;
+
+    // 숫자 팝 효과
+    cntEl.classList.remove('count-bump');
+    void cntEl.offsetWidth; // 리플로우 트리거
+    cntEl.classList.add('count-bump');
+
+    // 파티클 생성
+    createFloatingParticle(btn, type);
+}
+
+function createFloatingParticle(targetEl, type) {
+    // 1. 저장된 주문 정보나 파라미터에서 동물 종류 판별 (기본값: 'dog')
+    let petType = 'dog';
+    const rawOrder = localStorage.getItem('recentMemorialOrder');
+    if (rawOrder) {
+        try {
+            const order = JSON.parse(rawOrder);
+            if (order.petType) petType = order.petType;
+        } catch (e) {
+            console.error(e);
+        }
     }
+
+    // 2. 동물 종류별 전용 이모지 세트 정의
+    const emojiPacks = {
+        // 🐶 강아지 전용
+        dog: {
+            treat: ['🦴', '🍖', '🥩', '🍪', '🐾', '✨'],
+            toy: ['🎾', '⚾', '🧸', '🥏', '⭐', '✨'],
+            candle: ['🕯️', '✨', '🌟', '💛', '🌈'],
+            default: ['🐾', '🤍', '✨', '🕊️']
+        },
+        // 🐱 고양이 전용 (뼈다귀 대신 생선, 츄르, 깃털/실뭉치, 상자)
+        cat: {
+            treat: ['🐟', '🍣', '🍗', '🥛', '🐾', '✨'],
+            toy: ['🧶', '🪢', '📦', '🎈', '⭐', '✨'],
+            candle: ['🕯️', '✨', '🌟', '💛', '🌈'],
+            default: ['🐾', '🤍', '✨', '🕊️']
+        },
+        // 🐹 소동물 전용 (햄스터, 토끼, 새 등 - 해바라기씨, 당근, 사과)
+        small: {
+            treat: ['🌻', '🥕', '🍎', '🍓', '🌾', '✨'],
+            toy: ['🎡', '🔔', '🎀', '⭐', '✨'],
+            candle: ['🕯️', '✨', '🌟', '💛', '🌈'],
+            default: ['🌿', '🤍', '✨', '🕊️']
+        }
+    };
+
+    // 현재 선택된 동물의 팩 선택 (없으면 dog로 폴백)
+    const currentPack = emojiPacks[petType] || emojiPacks.dog;
+    const targetList = currentPack[type] || currentPack.default;
+    const emoji = targetList[Math.floor(Math.random() * targetList.length)];
+
+    const particle = document.createElement('span');
+    particle.className = 'interactive-floating-particle';
+    particle.innerText = emoji;
+
+    // 좌우 무작위 오차
+    const randomOffset = (Math.random() - 0.5) * 30;
+    particle.style.left = `calc(50% + ${randomOffset}px)`;
+
+    targetEl.appendChild(particle);
+
+    setTimeout(() => {
+        particle.remove();
+    }, 950);
 }
 
 const DEFAULT_LETTERS = [
