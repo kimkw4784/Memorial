@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>추억 조각 검수함 | 온새미로 관리자</title>
+    <title>추모관 통합 관리 | 온새미로</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -17,32 +17,56 @@
 <body class="admin-body">
 
     <div class="admin-container">
-        <header class="admin-header">
-            <div class="header-tag">FAMILY ARCHIVE ADMIN</div>
-            <h1 class="admin-title"><span id="adminPetName">코코</span>에게 도착한 추억들</h1>
-            <p class="admin-desc">지인분들이 보내주신 소중한 사진과 이야기입니다.<br>선택하여 승인한 사진만 메인 추모관 갤러리에 공개됩니다.</p>
+        <!-- 메인 헤더 -->
+        <header class="admin-header-box">
+            <span class="header-tag">FAMILY ARCHIVE ADMIN</span>
+            <h1 class="admin-main-title"><span id="adminPetName">코코</span>의 안식처 관리</h1>
+            <p class="admin-main-desc">소중한 추억 조각과 발자취, 전해온 편지를 한눈에 관리합니다.</p>
         </header>
 
-        <!-- 상태 필터 탭 -->
-        <div class="filter-tabs">
-            <button class="filter-tab active" onclick="setFilter('pending')">확인 대기 중 <span id="countPending"
-                    class="badge">0</span></button>
-            <button class="filter-tab" onclick="setFilter('approved')">전시 승인됨 <span id="countApproved"
-                    class="badge">0</span></button>
-            <button class="filter-tab" onclick="setFilter('unposted')">제외됨 <span id="countUnposted"
-                    class="badge">0</span></button>
-        </div>
+        <!-- ⭐️ 3단 대분류 메인 탭 -->
+        <nav class="admin-main-nav">
+            <button type="button" class="main-tab-btn active" onclick="switchMainTab('media')">
+                <span class="tab-label">📷 추억 검수</span>
+                <span id="badgePendingMain" class="main-tab-badge">0</span>
+            </button>
+            <button type="button" class="main-tab-btn" onclick="switchMainTab('timeline')">
+                <span class="tab-label">🐾 발자취 타임라인</span>
+                <span id="badgeTimelineMain" class="main-tab-badge">0</span>
+            </button>
+            <button type="button" class="main-tab-btn" onclick="switchMainTab('postbox')">
+                <span class="tab-label">📮 무지개 우체통</span>
+                <span id="badgePostboxMain" class="main-tab-badge">0</span>
+            </button>
+        </nav>
 
-        <!-- 추억 카드 목록 컨테이너 -->
-        <main id="memoryCardList" class="memory-card-list">
-            <!-- JS 동적 렌더링 영역 -->
-        </main>
+        <!-- ⭐️ 탭 1: 사진·영상 검수 패널 -->
+        <section id="panel-media" class="admin-tab-panel active">
+            <div class="panel-desc-box">
+                <p class="panel-sub-desc">지인분들이 보내주신 사진과 영상입니다. 선택하여 승인한 사진만 갤러리에 공개됩니다.</p>
+            </div>
 
-        <section class="admin-timeline-section">
-            <div class="section-title-box">
-                <span class="header-tag">MEMORIAL TIMELINE</span>
-                <h2 class="section-sub-title">발자취 타임라인 관리</h2>
-                <p class="section-desc">아이와 함께 걸어온 소중한 날들을 시간 순서대로 기록해보세요.</p>
+            <!-- 하위 상태 필터 탭 -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="setFilter('pending')">
+                    확인 대기 중 <span id="countPending" class="badge">0</span>
+                </button>
+                <button class="filter-tab" onclick="setFilter('approved')">
+                    전시 승인됨 <span id="countApproved" class="badge">0</span>
+                </button>
+                <button class="filter-tab" onclick="setFilter('unposted')">
+                    제외됨 <span id="countUnposted" class="badge">0</span>
+                </button>
+            </div>
+
+            <!-- 추억 카드 목록 -->
+            <div id="memoryCardList" class="memory-card-list"></div>
+        </section>
+
+        <!-- ⭐️ 탭 2: 발자취 타임라인 패널 -->
+        <section id="panel-timeline" class="admin-tab-panel">
+            <div class="panel-desc-box">
+                <p class="panel-sub-desc">아이와 함께 걸어온 소중한 날들을 시간 순서대로 기록해보세요.</p>
             </div>
 
             <!-- 발자취 등록 폼 -->
@@ -56,8 +80,20 @@
             </form>
 
             <!-- 등록된 타임라인 리스트 -->
-            <div class="admin-timeline-list" id="adminTimelineList">
-                <!-- JS로 동적 렌더링 -->
+            <div class="admin-timeline-list" id="adminTimelineList"></div>
+        </section>
+
+        <!-- ⭐️ 탭 3: 무지개 우체통 패널 -->
+        <section id="panel-postbox" class="admin-tab-panel">
+            <div class="panel-desc-box">
+                <p class="panel-sub-desc">지인과 가족분들이 남겨주신 편지를 확인하고 정리할 수 있습니다.</p>
+            </div>
+
+            <div class="admin-card-box">
+                <div class="postbox-header-row">
+                    <span class="postbox-total-text">총 <strong id="postboxCount">0</strong>개의 편지</span>
+                </div>
+                <div class="postbox-admin-list" id="adminPostboxList"></div>
             </div>
         </section>
 

@@ -98,13 +98,16 @@ function handleLetterSubmit(e) {
 
     if (!name || !relation || !msg) return;
 
+    // 날짜 규격 통일 (YYYY. MM. DD.)
     const today = new Date();
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
-    const currentDate = `${yyyy}.${mm}.${dd}`;
+    const currentDate = `${yyyy}. ${mm}. ${dd}.`;
 
+    // ⭐️ admin.js와 완벽히 호환되는 고유 ID 부여
     const newLetter = {
+        id: 'LET-' + Date.now(),
         name: name,
         relation: relation,
         msg: msg,
@@ -118,9 +121,20 @@ function handleLetterSubmit(e) {
     localStorage.setItem('memorial_letters', JSON.stringify(letters));
     loadLetters();
 
+    // 폼 초기화 및 완료 안내
     nameInput.value = '';
     relationInput.value = '';
     msgInput.value = '';
+
+    if (typeof showToast === 'function') {
+        showToast("소중한 마음이 우체통에 고이 전해졌습니다 ✉️");
+    }
+
+    // 최상단으로 등록된 새 편지 강조 애니메이션
+    const firstCard = document.querySelector('#letterList .letter-card');
+    if (firstCard) {
+        firstCard.classList.add('new-arrival');
+    }
 }
 
 function loadApprovedMemories() {

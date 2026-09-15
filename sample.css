@@ -745,6 +745,25 @@ body {
     word-break: break-word;
 }
 
+/* 우체통 새 편지 등장 효과 */
+.letter-card.new-arrival {
+    animation: letterSlideDown 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes letterSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+        background-color: rgba(212, 163, 115, 0.12);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        background-color: #ffffff;
+    }
+}
+
 .sample-cta-banner {
     margin-top: 48px;
     background: #FFFFFF;

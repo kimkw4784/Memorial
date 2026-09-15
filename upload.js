@@ -1,4 +1,4 @@
-let selectedFiles = []; // 필수: 파일 담는 배열
+let selectedFiles = [];
 
 // 기기 환경 감지 (모바일: 200MB, PC: 500MB)
 function getMaxFileSize() {
@@ -10,24 +10,48 @@ function getMaxFileSize() {
     };
 }
 
-// 아이 이름 및 타이틀 연동
+// 아이 이름, 룸 파라미터 및 되돌아가기 링크 연동
 document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomParam = urlParams.get('room');
+
+    const backLink = document.querySelector('.back-link');
+    if (backLink && roomParam) {
+        backLink.href = `sample.html?room=${roomParam}`;
+    }
+
+    let petName = '코코';
     const rawData = localStorage.getItem('recentMemorialOrder');
     if (rawData) {
-        const order = JSON.parse(rawData);
-        const petName = order.petName || '코코';
-
-        document.title = `${petName}와의 추억 모으기 | 온새미로`;
-        const nameEl = document.getElementById('targetPetName');
-        const guideEl = document.getElementById('targetPetGuide');
-        if (nameEl) nameEl.innerText = petName;
-        if (guideEl) guideEl.innerText = petName;
+        try {
+            const order = JSON.parse(rawData);
+            if (order.petName) petName = order.petName;
+        } catch (e) {
+            console.error(e);
+        }
+    } else if (roomParam) {
+        const allOrders = localStorage.getItem('memorialOrders');
+        if (allOrders) {
+            try {
+                const list = JSON.parse(allOrders);
+                const matched = list.find(item => item.roomSlug === roomParam);
+                if (matched && matched.petName) petName = matched.petName;
+            } catch (e) {
+                console.error(e);
+            }
+        }
     }
+
+    document.title = `${petName}와의 추억 모으기 | 온새미로`;
+    const nameEl = document.getElementById('targetPetName');
+    const guideEl = document.getElementById('targetPetGuide');
+    if (nameEl) nameEl.innerText = petName;
+    if (guideEl) guideEl.innerText = petName;
 });
 
-// 이미지 리사이징 & 압축 (가로세로 최대 1600px, 퀄리티 82%)
-function compressImage(file) {
-    return new Promise((resolve) => {
+// 이미지 -> WebP 고화질 보존 압축 (최대 FHD 1920px, 퀄리티 0.88)
+function compressImageToWebp(file) {
+    return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (e) => {
@@ -37,7 +61,7 @@ function compressImage(file) {
                 const canvas = document.createElement('canvas');
                 let width = img.width;
                 let height = img.height;
-                const maxDim = 1600;
+                const maxDim = 1920; // FHD 고해상도 규격
 
                 if (width > maxDim || height > maxDim) {
                     if (width > height) {
@@ -52,58 +76,91 @@ function compressImage(file) {
                 canvas.width = width;
                 canvas.height = height;
                 const ctx = canvas.getContext('2d');
+
+                // 렌더링 스무딩 품질 극대화
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
                 ctx.drawImage(img, 0, 0, width, height);
 
-                const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
-                resolve({ dataUrl: compressedDataUrl, type: 'image' });
+                // 시각적 무손실 구간 (0.88)
+                const webpDataUrl = canvas.toDataURL('image/webp', 0.88);
+                resolve({ dataUrl: webpDataUrl, type: 'image' });
             };
+            img.onerror = reject;
         };
-    });
-}
-
-// 파일 dataURL 변환기
-function readFileAsDataURL(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (e) => resolve(e.target.result);
         reader.onerror = reject;
-        reader.readAsDataURL(file);
     });
 }
 
-// 미리보기 화면 추가
+// 비디오 프레임 추출 -> 고화질 WebP 변환
+function extractVideoThumbnailToWebp(file) {
+    return new Promise((resolve, reject) => {
+        const video = document.createElement('video');
+        video.preload = 'metadata';
+        video.muted = true;
+        video.playsInline = true;
+        video.src = URL.createObjectURL(file);
+
+        video.onloadedmetadata = () => {
+            video.currentTime = Math.min(1.0, video.duration / 2);
+        };
+
+        video.onseeked = () => {
+            const canvas = document.createElement('canvas');
+            let width = video.videoWidth;
+            let height = video.videoHeight;
+            const maxDim = 1280; // 비디오 썸네일 HD 규격
+
+            if (width > maxDim || height > maxDim) {
+                if (width > height) {
+                    height = Math.round((height * maxDim) / width);
+                    width = maxDim;
+                } else {
+                    width = Math.round((width * maxDim) / height);
+                    height = maxDim;
+                }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(video, 0, 0, width, height);
+
+            const webpDataUrl = canvas.toDataURL('image/webp', 0.88);
+            URL.revokeObjectURL(video.src);
+            resolve({ dataUrl: webpDataUrl, type: 'video' });
+        };
+
+        video.onerror = reject;
+    });
+}
+
 function appendPreviewItem(container, src, type, fileName) {
     const item = document.createElement('div');
     item.className = 'preview-item';
 
-    if (type === 'video') {
-        item.innerHTML = `
-            <video src="${src}" muted playsinline></video>
-            <button type="button" class="btn-remove-preview" onclick="removeFile(this, '${fileName}')">×</button>
-        `;
-    } else {
-        item.innerHTML = `
-            <img src="${src}" alt="미리보기">
-            <button type="button" class="btn-remove-preview" onclick="removeFile(this, '${fileName}')">×</button>
-        `;
-    }
-
+    item.innerHTML = `
+        <img src="${src}" alt="미리보기">
+        ${type === 'video' ? '<span style="position:absolute; bottom:4px; right:4px; font-size:10px; background:rgba(0,0,0,0.6); color:#fff; padding:2px 4px; border-radius:4px;">VIDEO</span>' : ''}
+        <button type="button" class="btn-remove-preview" onclick="removeFile(this, '${fileName}')">✕</button>
+    `;
     container.appendChild(item);
 }
 
-// 첨부 파일 삭제
 function removeFile(btn, fileName) {
     selectedFiles = selectedFiles.filter(f => f.name !== fileName);
     btn.parentElement.remove();
 }
 
-// 파일 선택 핸들러
 async function handleFileSelect(e) {
     const files = Array.from(e.target.files);
     const grid = document.getElementById('previewGrid');
 
     if (selectedFiles.length + files.length > 3) {
-        alert("추억 파일은 최대 3개까지만 나누어 담을 수 있어요.");
+        alert("추억 파일은 한 번에 최대 3개까지만 등록할 수 있습니다.");
         e.target.value = '';
         return;
     }
@@ -113,32 +170,43 @@ async function handleFileSelect(e) {
     const progressText = document.getElementById('compressProgress');
 
     for (const file of files) {
+        // 원본 선택 용량 체크 (모바일 200MB / PC 500MB)
         if (file.size > limit) {
             const currentMB = (file.size / (1024 * 1024)).toFixed(1);
             if (isMobile) {
-                alert(`"${file.name}" 영상 용량(${currentMB}MB)이 커서 모바일 화면이 멈출 수 있어요.\n\n현재 링크를 복사하여 PC에서 접속하시면 최대 500MB까지 안전하게 담아내실 수 있습니다.`);
+                alert(`"${file.name}" 파일(${currentMB}MB)이 200MB를 초과했습니다.\n현재 링크 그대로 PC에서 접속하시면 500MB까지 등록하실 수 있습니다.`);
             } else {
-                alert(`"${file.name}" 파일이 500MB를 초과하여 담지 못했습니다. 조금 더 짧은 영상으로 선택해 주세요.`);
+                alert(`"${file.name}" 파일이 500MB를 초과하여 첨부할 수 없습니다.`);
             }
             continue;
         }
 
         if (loader) loader.style.display = 'flex';
-        if (progressText) progressText.innerText = `"${file.name}" 추억을 고이 담아내는 중...`;
+        if (progressText) progressText.innerText = `"${file.name}" 고화질로 변환 중...`;
 
         try {
             if (file.type.startsWith('image/')) {
-                const compressed = await compressImage(file);
-                selectedFiles.push({ name: file.name, data: compressed.dataUrl, type: 'image' });
+                const compressed = await compressImageToWebp(file);
+                selectedFiles.push({
+                    name: file.name,
+                    data: compressed.dataUrl,
+                    type: 'image',
+                    excluded: false
+                });
                 appendPreviewItem(grid, compressed.dataUrl, 'image', file.name);
             } else if (file.type.startsWith('video/')) {
-                const videoData = await readFileAsDataURL(file);
-                selectedFiles.push({ name: file.name, data: videoData, type: 'video' });
-                appendPreviewItem(grid, videoData, 'video', file.name);
+                const compressed = await extractVideoThumbnailToWebp(file);
+                selectedFiles.push({
+                    name: file.name,
+                    data: compressed.dataUrl,
+                    type: 'video',
+                    excluded: false
+                });
+                appendPreviewItem(grid, compressed.dataUrl, 'video', file.name);
             }
         } catch (err) {
-            console.error("파일 처리 실패:", err);
-            alert(`"${file.name}" 파일을 온전히 담아내지 못했어요. 잠시 후 다시 시도해 주세요.`);
+            console.error("고화질 변환 실패:", err);
+            alert(`"${file.name}" 파일을 처리하지 못했습니다. 다른 파일로 시도해 주세요.`);
         }
     }
 
@@ -146,7 +214,6 @@ async function handleFileSelect(e) {
     e.target.value = '';
 }
 
-// 최종 폼 제출
 function handleUploadSubmit(e) {
     e.preventDefault();
 
@@ -155,31 +222,40 @@ function handleUploadSubmit(e) {
         return;
     }
 
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const formattedDate = `${yyyy}. ${mm}. ${dd}.`;
+
     const newMemory = {
         id: 'MEM-' + Date.now(),
-        sender: document.getElementById('senderName').value,
-        relation: document.getElementById('senderRelation').value,
-        story: document.getElementById('memoryStory').value,
-        files: selectedFiles.map(f => ({ name: f.name, data: f.data, type: f.type })),
-        status: 'pending', // 기본값: 승인 대기 중
-        submittedAt: new Date().toLocaleString('ko-KR', { dateStyle: 'medium', timeStyle: 'short' })
+        sender: document.getElementById('senderName').value.trim(),
+        relation: document.getElementById('senderRelation').value.trim(),
+        story: document.getElementById('memoryStory').value.trim(),
+        files: selectedFiles,
+        status: 'pending',
+        submittedAt: formattedDate
     };
 
-    // 로컬 스토리지에 검수 목록 누적
-    const existingList = JSON.parse(localStorage.getItem('pendingMemories') || '[]');
-    existingList.unshift(newMemory);
-    localStorage.setItem('pendingMemories', JSON.stringify(existingList));
+    try {
+        const existingList = JSON.parse(localStorage.getItem('pendingMemories') || '[]');
+        existingList.unshift(newMemory);
+        localStorage.setItem('pendingMemories', JSON.stringify(existingList));
 
-    showToast("소중한 추억이 가족분들께 안전하게 전달되었습니다.");
+        showToast("소중한 추억이 가족분들께 안전하게 전달되었습니다.");
 
-    setTimeout(() => {
-        document.getElementById('memoryForm').reset();
-        document.getElementById('previewGrid').innerHTML = '';
-        selectedFiles = [];
-    }, 800);
+        setTimeout(() => {
+            document.getElementById('memoryForm').reset();
+            document.getElementById('previewGrid').innerHTML = '';
+            selectedFiles = [];
+        }, 800);
+    } catch (err) {
+        console.error("스토리지 저장 실패:", err);
+        alert("브라우저 저장 공간이 가득 찼습니다. 기존 항목을 검수한 후 다시 시도해 주세요.");
+    }
 }
 
-// 토스트 함수 추가
 function showToast(message) {
     const toast = document.getElementById("toastMessage");
     if (!toast) return;
