@@ -44,6 +44,21 @@ function switchBgm() {
 
     if (!select.value) return;
 
+    // ⭐️ 04. 배경음악 없음 선택 시 오디오 정지 및 버튼 초기화
+    if (select.value === 'none') {
+        bgmAudio.pause();
+        bgmAudio.currentTime = 0;
+        isBgmPlaying = false;
+        btn.innerText = '재생';
+        btn.style.opacity = '0.5';
+        btn.style.pointerEvents = 'none'; // '없음' 상태에서는 재생 버튼 클릭 방지
+        return;
+    }
+
+    // 일반 곡 선택 시 버튼 활성화 복원
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = 'auto';
+
     bgmAudio.src = select.value;
     bgmAudio.play().then(() => {
         isBgmPlaying = true;

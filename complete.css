@@ -196,6 +196,12 @@ body {
     border-color: rgba(212, 163, 115, 0.5);
 }
 
+/* 관리자 전용 시크릿 링크 강조 */
+.inner-link-item.link-item-admin {
+    background: #FAF8F5;
+    border-color: rgba(212, 163, 115, 0.35);
+}
+
 .link-item-header {
     display: flex;
     align-items: center;
@@ -217,6 +223,11 @@ body {
 .badge-accent {
     background: var(--accent-brown-light);
     color: var(--accent-brown);
+}
+
+.badge-admin {
+    background: #EFE7DA;
+    color: #8C6A48;
 }
 
 .link-desc {
@@ -258,6 +269,10 @@ body {
 .link-item-tip span {
     color: var(--accent-brown);
     font-weight: 700;
+}
+
+.link-item-tip.tip-warning span {
+    color: #C07040;
 }
 
 /* 그룹 내부 안내 띠지 공통 */
@@ -350,4 +365,60 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+/* 그룹 상단 소제목 */
+.group-section-title {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+    font-size: 13.5px;
+    color: var(--text-main);
+}
+
+.section-title-icon {
+    font-size: 14px;
+    line-height: 1;
+}
+
+.section-title-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.links-sub-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 관리자 전용 시크릿 박스 강조 (따뜻한 테두리 및 톤 구분) */
+.box-admin-secret {
+    background: #FAF7F2;
+    border: 1px solid rgba(212, 163, 115, 0.3);
+}
+
+.group-section-title.title-admin strong {
+    color: #8C6A48;
+}
+
+.inner-link-item.link-item-admin {
+    background: #FFFFFF;
+    border-color: rgba(212, 163, 115, 0.4);
+}
+
+.badge-admin {
+    background: #FAEDCD;
+    color: #8C6A48;
+}
+
+.link-item-tip.tip-warning {
+    color: #A36A3E;
+}
+
+.link-item-tip.tip-warning span {
+    color: #C05621;
 }

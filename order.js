@@ -167,7 +167,7 @@ function handleOrderSubmit(event) {
         applicantName: document.getElementById('applicantName')?.value.trim() || '',
         applicantPhone: document.getElementById('applicantPhone')?.value.trim() || '',
         plan: currentSelectedPlan,
-        petPhoto: photoData || '', // ⭐️ 누락되었던 사진 데이터 완벽 저장!
+        petPhoto: photoData || '',
         createdAt: new Date().toISOString()
     };
 

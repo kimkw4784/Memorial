@@ -35,13 +35,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (order.petName) document.getElementById('petNameDisplay').innerText = order.petName;
 
         const slug = order.roomSlug || '4K8F2G';
+        const adminKey = order.adminKey || 'sec_' + Math.random().toString(36).substring(2, 10);
+
+        // 3개 링크 매핑
         document.getElementById('memorialLinkInput').value = `https://memorial.me/${slug}`;
         document.getElementById('uploadLinkInput').value = `https://memorial.me/upload.html?room=${slug}`;
+
+        const adminLinkInput = document.getElementById('adminSecretLinkInput');
+        if (adminLinkInput) {
+            adminLinkInput.value = `https://memorial.me/${slug}?key=${adminKey}`;
+        }
 
         const viewBtn = document.getElementById('viewMemorialBtn');
         const adminBtn = document.getElementById('adminManageBtn');
         if (viewBtn) viewBtn.href = `sample.html?room=${slug}`;
-        if (adminBtn) adminBtn.href = `admin.html?room=${slug}`;
+        if (adminBtn) adminBtn.href = `admin.html?room=${slug}&key=${adminKey}`;
 
         if (order.merchantUid) {
             document.getElementById('orderNumberDisplay').innerText = order.merchantUid;
@@ -54,14 +62,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 order.plan === 'heritage' ? '헤리티지 패키지 (59,000원)' : '디지털 소장권 (19,500원)';
         }
     } else {
+        const defaultSlug = '4K8F2G';
+        const defaultKey = 'sec_w9a2kL9';
+
         document.getElementById('orderNumberDisplay').innerText = "ORD-4K8F2G";
-        document.getElementById('memorialLinkInput').value = "https://memorial.me/4K8F2G";
-        document.getElementById('uploadLinkInput').value = "https://memorial.me/upload.html?room=4K8F2G";
+        document.getElementById('memorialLinkInput').value = `https://memorial.me/${defaultSlug}`;
+        document.getElementById('uploadLinkInput').value = `https://memorial.me/upload.html?room=${defaultSlug}`;
+
+        const adminLinkInput = document.getElementById('adminSecretLinkInput');
+        if (adminLinkInput) {
+            adminLinkInput.value = `https://memorial.me/${defaultSlug}?key=${defaultKey}`;
+        }
 
         const viewBtn = document.getElementById('viewMemorialBtn');
         const adminBtn = document.getElementById('adminManageBtn');
-        if (viewBtn) viewBtn.href = `sample.html?room=4K8F2G`;
-        if (adminBtn) adminBtn.href = `admin.html?room=4K8F2G`;
+        if (viewBtn) viewBtn.href = `sample.html?room=${defaultSlug}`;
+        if (adminBtn) adminBtn.href = `admin.html?room=${defaultSlug}&key=${defaultKey}`;
     }
 });
 

@@ -71,42 +71,76 @@
                 </div>
             </div>
 
-            <!-- [2그룹] 발급 링크 2개 + 안심 발송 안내 묶음 -->
-            <div class="complete-group-box links-group-box">
-                <div class="inner-link-item link-item-highlight">
-                    <div class="link-item-header">
-                        <span class="link-badge badge-accent">공유용</span>
-                        <strong>온 가족 공식 추모관 링크</strong>
+            <!-- [2그룹] 목적별 링크 분리 (지인 전달용 / 보호자 보관용) -->
+
+            <!-- A. 지인에게 전달할 링크 묶음 -->
+            <div class="complete-group-box">
+                <div class="group-section-title">
+                    <span class="section-title-icon">📢</span>
+                    <strong>지인에게 전달할 링크</strong>
+                    <span class="section-title-sub">가족·친지분들께 상황에 맞게 전달해 주세요.</span>
+                </div>
+
+                <div class="links-sub-stack">
+                    <!-- 1. 공식 추모관 방문 링크 -->
+                    <div class="inner-link-item link-item-highlight">
+                        <div class="link-item-header">
+                            <span class="link-badge badge-accent">가족·지인용</span>
+                            <strong>공식 추모관 링크</strong>
+                        </div>
+                        <p class="link-desc">지인들이 추모관을 방문해 헌화하고 방명록을 남길 수 있는 공개 주소입니다.</p>
+                        <div class="link-input-group">
+                            <input type="text" id="memorialLinkInput" class="form-input" readonly>
+                            <button type="button" class="btn btn-secondary btn-copy"
+                                onclick="copyLink('memorialLinkInput')">복사</button>
+                        </div>
                     </div>
-                    <p class="link-desc">가족과 지인들에게 공유하여 온기를 나눌 수 있는 주소입니다.</p>
+
+                    <!-- 2. 지인 사진 취합 링크 -->
+                    <div class="inner-link-item">
+                        <div class="link-item-header">
+                            <span class="link-badge">사진 모으기</span>
+                            <strong>사진·사연 취합함 링크</strong>
+                        </div>
+                        <p class="link-desc">지인들이 간직한 고인/아이의 사진과 영상을 직접 올려받는 전용 주소입니다.</p>
+                        <div class="link-input-group">
+                            <input type="text" id="uploadLinkInput" class="form-input" readonly>
+                            <button type="button" class="btn btn-secondary btn-copy"
+                                onclick="copyLink('uploadLinkInput')">복사</button>
+                        </div>
+                        <div class="link-item-tip">
+                            <span>✓</span> 보내온 사진은 관리자 화면에서 보호자님이 승인한 것만 공개됩니다.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B. 보호자 전용 시크릿 관리 링크 묶음 (완전 분리) -->
+            <div class="complete-group-box box-admin-secret">
+                <div class="group-section-title title-admin">
+                    <span class="section-title-icon">🔒</span>
+                    <strong>보호자 전용 관리 링크</strong>
+                    <span class="section-title-sub">개설자 본인만 열람 및 수정할 수 있습니다.</span>
+                </div>
+
+                <div class="inner-link-item link-item-admin">
+                    <div class="link-item-header">
+                        <span class="link-badge badge-admin">관리자 모드</span>
+                        <strong>추모관 설정 링크</strong>
+                    </div>
+                    <p class="link-desc">대표 사진 변경, 선물 목록 수정 및 사진을 검토하는 관리 전용 주소입니다.</p>
                     <div class="link-input-group">
-                        <input type="text" id="memorialLinkInput" class="form-input" readonly>
+                        <input type="text" id="adminSecretLinkInput" class="form-input" readonly>
                         <button type="button" class="btn btn-secondary btn-copy"
-                            onclick="copyLink('memorialLinkInput')">복사</button>
+                            onclick="copyLink('adminSecretLinkInput')">복사</button>
+                    </div>
+                    <div class="link-item-tip tip-warning">
+                        <span>⚠️</span> 관리 권한이 포함되어 있으므로 지인에게 공유되지 않도록 주의해 주세요.
                     </div>
                 </div>
 
-                <div class="inner-link-item">
-                    <div class="link-item-header">
-                        <span class="link-badge">사진 취합</span>
-                        <strong>지인 사진 모으기 (비공개 취합함)</strong>
-                    </div>
-                    <!-- 1. 취합 목적 명시 -->
-                    <p class="link-desc">지인들이 간직한 사진·영상을 보호자님께 직접 전달하는 전용 링크입니다.</p>
-
-                    <div class="link-input-group">
-                        <input type="text" id="uploadLinkInput" class="form-input" readonly>
-                        <button type="button" class="btn btn-secondary btn-copy"
-                            onclick="copyLink('uploadLinkInput')">복사</button>
-                    </div>
-
-                    <!-- 2. 관리자 검토/승인 안심 안내 -->
-                    <div class="link-item-tip">
-                        <span>✓</span> 보내온 사진/영상은 관리자 화면에서 보호자님이 승인한 것만 갤러리에 공개됩니다.
-                    </div>
-                </div>
-
-                <div class="group-inner-banner sms-banner">
+                <!-- 알림톡 발송 안내 -->
+                <div class="group-inner-banner sms-banner" style="margin-top: 14px;">
                     <span class="banner-icon">💬</span>
                     <p>
                         위 주소들은 따로 저장해두지 않으셔도 괜찮습니다.<br>
@@ -115,14 +149,6 @@
                     </p>
                 </div>
             </div>
-
-            <!-- [하단 액션 버튼 2개] -->
-            <div class="complete-actions">
-                <a href="sample.html" id="viewMemorialBtn" class="btn btn-primary btn-full">추모관 둘러보기 →</a>
-                <a href="admin.html" id="adminManageBtn" class="btn btn-secondary btn-full btn-admin">⚙️ 추모관 관리자 화면으로
-                    가기</a>
-            </div>
-        </div>
     </main>
 
     <script src="complete.js"></script>

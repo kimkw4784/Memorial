@@ -84,11 +84,11 @@
                         </div>
 
                         <div class="mockup-interactive">
-                            <button class="mockup-btn" type="button" onclick="addCount(this)">
+                            <button class="mockup-btn" type="button" onclick="addCount(this, 'treat')">
                                 <span class="btn-dot"></span>
                                 마음의 선물 <strong class="cnt">48</strong>
                             </button>
-                            <button class="mockup-btn" type="button" onclick="addCount(this)">
+                            <button class="mockup-btn" type="button" onclick="addCount(this, 'candle')">
                                 <span class="btn-dot"></span>
                                 등불 켜기 <strong class="cnt">92</strong>
                             </button>
@@ -118,12 +118,7 @@
                 <div class="feature-card">
                     <div class="feature-card-header">
                         <span class="feature-num">01</span>
-                        <div class="feature-badge">
-                            <svg viewBox="0 0 24 24" class="feature-svg">
-                                <path
-                                    d="M12 2c1.1 0 2 .9 2 2 0 1.6-2 4-2 4s-2-2.4-2-4c0-1.1.9-2 2-2zm-4 9h8v11H8V11zm2 2v7h4v-7h-4z" />
-                            </svg>
-                        </div>
+                        <span class="feature-subtag">QUIET SPACE</span>
                     </div>
                     <h3 class="feature-title">광고 없는 침묵의 공간</h3>
                     <p class="feature-desc">상업적 피드와 광고의 방해 없이<br>온전한 추모와 회고에 몰입합니다.</p>
@@ -133,12 +128,7 @@
                 <div class="feature-card">
                     <div class="feature-card-header">
                         <span class="feature-num">02</span>
-                        <div class="feature-badge">
-                            <svg viewBox="0 0 24 24" class="feature-svg">
-                                <path
-                                    d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z" />
-                            </svg>
-                        </div>
+                        <span class="feature-subtag">FAMILY LINK</span>
                     </div>
                     <h3 class="feature-title">가족 사진 취합 링크</h3>
                     <p class="feature-desc">회원가입 없이 링크 전달 하나로<br>지인들의 옛 사진과 사연을 모읍니다.</p>
@@ -148,12 +138,7 @@
                 <div class="feature-card">
                     <div class="feature-card-header">
                         <span class="feature-num">03</span>
-                        <div class="feature-badge">
-                            <svg viewBox="0 0 24 24" class="feature-svg">
-                                <path
-                                    d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z" />
-                            </svg>
-                        </div>
+                        <span class="feature-subtag">ONE-CLICK VIEW</span>
                     </div>
                     <h3 class="feature-title">무설치 원클릭 뷰어</h3>
                     <p class="feature-desc">앱 설치의 번거로움 없이 터치 한 번으로<br>누구나 편안하게 둘러봅니다.</p>
@@ -163,11 +148,7 @@
                 <div class="feature-card">
                     <div class="feature-card-header">
                         <span class="feature-num">04</span>
-                        <div class="feature-badge">
-                            <svg viewBox="0 0 24 24" class="feature-svg">
-                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
-                            </svg>
-                        </div>
+                        <span class="feature-subtag">ETERNAL ARCHIVE</span>
                     </div>
                     <h3 class="feature-title">평생 보존 & 백업 소장</h3>
                     <p class="feature-desc">추가 구독료 없이 영구 보존되며<br>언제든 PDF 전자책으로 저장합니다.</p>
@@ -278,7 +259,7 @@
                                 <p class="letter-text">"작년 여름 마당에서 뛰놀던 사진 찾아 보낸다."</p>
                             </div>
                             <div class="letter-bubble-sample" style="border-left: 3px solid var(--accent-brown);">
-                                <span class="letter-from">친구 지원이가 보낸 영상</span>
+                                <span class="letter-from">친구 민석이가 보낸 영상</span>
                                 <p class="letter-text">"한강에서 공놀이하던 짧은 영상이야."</p>
                             </div>
                         </div>
@@ -478,11 +459,11 @@
                             </div>
 
                             <div class="mockup-interactive">
-                                <button class="mockup-btn" type="button" onclick="addCount(this)">
+                                <button class="mockup-btn" type="button" onclick="addCount(this, 'treat')">
                                     <span class="btn-dot"></span>
                                     <span id="liveGift1">좋아하던 간식</span> <strong class="cnt">1</strong>
                                 </button>
-                                <button class="mockup-btn" type="button" onclick="addCount(this)">
+                                <button class="mockup-btn" type="button" onclick="addCount(this, 'toy')">
                                     <span class="btn-dot"></span>
                                     <span id="liveGift2">테니스공</span> <strong class="cnt">1</strong>
                                 </button>
@@ -531,7 +512,9 @@
                         <li>PDF 전자책 원클릭 다운로드</li>
                         <li>매년 생일 & 기일 카카오톡 알림톡</li>
                     </ul>
-                    <button class="btn btn-primary btn-full" type="button">혜택가로 신청하기</button>
+                    <button type="button" class="btn btn-primary btn-full" onclick="openOrderModal('digital')">
+                        혜택가로 시작하기
+                    </button>
                 </div>
 
                 <!-- 02. 헤리티지 패키지 -->
@@ -555,7 +538,9 @@
                         <li>유골함·봉안당 간편 부착 키트 동봉</li>
                         <li>안전 배송 및 선물용 패키징</li>
                     </ul>
-                    <button class="btn btn-secondary btn-full" type="button">패키지 신청하기</button>
+                    <button type="button" class="btn btn-secondary btn-full" onclick="openOrderModal('heritage')">
+                        패키지로 시작하기
+                    </button>
                 </div>
 
                 <!-- 03. 메모리북 풀패키지 (준비 중) -->
@@ -575,7 +560,9 @@
                         <p class="coming-soon-title">손끝으로 만지는 영원한 기록</p>
                         <p class="coming-soon-desc">더 따뜻하고 깊이 있는 온기를 담아내기 위해<br>실물 화보집 구성을 정성스럽게 다듬고 있습니다.</p>
                     </div>
-                    <button class="btn btn-disabled btn-full" type="button" disabled>오픈 준비 중</button>
+                    <button type="button" class="btn btn-disabled btn-full" disabled>
+                        출시 준비 중
+                    </button>
                 </div>
             </div>
         </div>
@@ -589,18 +576,38 @@
             </div>
 
             <div class="faq-list">
+                <!-- FAQ 01 -->
                 <div class="faq-item">
-                    <h3 class="faq-q">Q. 매달 결제되는 구독료가 있나요?</h3>
-                    <p class="faq-a">A. 아닙니다. 1회 결제로 추가 비용 없이 평생 소장되며, 클라우드 아카이브를 통해 영구 보존됩니다.</p>
+                    <button type="button" class="faq-q" onclick="toggleFaq(this)">
+                        <span>Q. 매달 결제되는 구독료가 있나요?</span>
+                        <span class="faq-icon"></span>
+                    </button>
+                    <div class="faq-a-wrap">
+                        <p class="faq-a">A. 아닙니다. 1회 결제로 추가 비용 없이 평생 소장되며, 클라우드 아카이브를 통해 영구 보존됩니다.</p>
+                    </div>
                 </div>
+
+                <!-- FAQ 02 -->
                 <div class="faq-item">
-                    <h3 class="faq-q">Q. 서비스가 중단되면 사진은 어떻게 되나요?</h3>
-                    <p class="faq-a">A. 언제든 관리자 화면에서 추모관의 모든 사진, 사연, 방명록을 한 권의 고화질 PDF 전자책과 ZIP 파일로 원클릭 다운로드할 수 있습니다.
-                    </p>
+                    <button type="button" class="faq-q" onclick="toggleFaq(this)">
+                        <span>Q. 서비스가 중단되면 사진은 어떻게 되나요?</span>
+                        <span class="faq-icon"></span>
+                    </button>
+                    <div class="faq-a-wrap">
+                        <p class="faq-a">A. 언제든 관리자 화면에서 추모관의 모든 사진, 사연, 방명록을 한 권의 고화질 PDF 전자책과 ZIP 파일로 원클릭 다운로드할 수
+                            있습니다.</p>
+                    </div>
                 </div>
+
+                <!-- FAQ 03 -->
                 <div class="faq-item">
-                    <h3 class="faq-q">Q. 친척이나 지인들에게 어떻게 공유하나요?</h3>
-                    <p class="faq-a">A. 별도의 앱 설치나 회원가입 없이 생성된 고유 링크(URL)를 카카오톡이나 문자로 전달하면 즉시 접속할 수 있습니다.</p>
+                    <button type="button" class="faq-q" onclick="toggleFaq(this)">
+                        <span>Q. 친척이나 지인들에게 어떻게 공유하나요?</span>
+                        <span class="faq-icon"></span>
+                    </button>
+                    <div class="faq-a-wrap">
+                        <p class="faq-a">A. 별도의 앱 설치나 회원가입 없이 생성된 고유 링크(URL)를 카카오톡이나 문자로 전달하면 즉시 접속할 수 있습니다.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -609,10 +616,29 @@
     <footer class="footer">
         <div class="container footer-container">
             <div class="footer-brand">
-                <span class="logo-en">MEMORIAL</span>
-                <p>시간을 넘어 영원히 머무는 기억의 숲</p>
+                <a href="#" class="footer-logo">
+                    <span class="logo-en">MEMORIAL</span>
+                    <span class="logo-kr">기억의 숲</span>
+                </a>
+                <p class="footer-slogan">시간을 넘어 영원히 머무는 작은 안식처</p>
             </div>
-            <p class="copyright">© 2026 MEMORIAL. All rights reserved.</p>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-bottom">
+                <div class="footer-info">
+                    <span>상호명: 기억의 숲 (MEMORIAL)</span>
+                    <span>대표: 홍길동</span>
+                    <span>사업자등록번호: 000-00-00000</span>
+                    <span>통신판매업신고: 제2026-서울강남-0000호</span>
+                    <span>문의: contact@memorial.kr</span>
+                </div>
+                <div class="footer-legal">
+                    <a href="terms.html" target="_blank">이용약관</a>
+                    <a href="privacy.html" target="_blank"><strong>개인정보처리방침</strong></a>
+                    <span class="copyright">© 2026 MEMORIAL. All rights reserved.</span>
+                </div>
+            </div>
         </div>
     </footer>
 

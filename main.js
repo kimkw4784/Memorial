@@ -87,17 +87,64 @@ function handlePhotoUpload(event) {
     }
 }
 
-function addCount(btn) {
-    const cntSpan = btn.querySelector('.cnt');
-    if (cntSpan) {
-        let count = parseInt(cntSpan.innerText, 10);
-        cntSpan.innerText = count + 1;
-        btn.style.borderColor = 'var(--accent-brown)';
-        btn.style.transform = 'scale(1.05)';
-        setTimeout(() => {
-            btn.style.transform = 'scale(1)';
-        }, 150);
+function addCount(btn, type = 'treat') {
+    const cntEl = btn.querySelector('.cnt') || btn.querySelector('strong');
+    if (!cntEl) return;
+
+    let currentVal = parseInt(cntEl.innerText.replace(/[^\d]/g, ''), 10) || 0;
+    cntEl.innerText = currentVal + 1;
+
+    // 숫자 팝 범프 효과
+    cntEl.classList.remove('count-bump');
+    void cntEl.offsetWidth;
+    cntEl.classList.add('count-bump');
+
+    // 현재 빌더에서 선택된 동물 타입 읽기 (기본값 dog)
+    const activePetBtn = document.querySelector('.pet-type-btn.active');
+    let petType = 'dog';
+    if (activePetBtn) {
+        if (activePetBtn.innerText.includes('고양이')) petType = 'cat';
+        else if (activePetBtn.innerText.includes('소동물')) petType = 'small';
     }
+
+    createHeroParticle(btn, type, petType);
+}
+
+function createHeroParticle(targetEl, type, petType) {
+    const emojiPacks = {
+        dog: {
+            treat: ['🦴', '🍖', '🥩', '🍪', '✨'],
+            toy: ['🎾', '⚾', '🧸', '⭐', '✨'],
+            candle: ['🕯️', '✨', '🌟', '💛']
+        },
+        cat: {
+            treat: ['🐟', '🍣', '🍗', '🥛', '✨'],
+            toy: ['🧶', '🪢', '📦', '🎈', '✨'],
+            candle: ['🕯️', '✨', '🌟', '💛']
+        },
+        small: {
+            treat: ['🌻', '🥕', '🍎', '🍓', '✨'],
+            toy: ['🎡', '🔔', '🎀', '⭐', '✨'],
+            candle: ['🕯️', '✨', '🌟', '💛']
+        }
+    };
+
+    const currentPack = emojiPacks[petType] || emojiPacks.dog;
+    const targetList = currentPack[type] || currentPack.treat;
+    const emoji = targetList[Math.floor(Math.random() * targetList.length)];
+
+    const particle = document.createElement('span');
+    particle.className = 'interactive-floating-particle';
+    particle.innerText = emoji;
+
+    const randomOffset = (Math.random() - 0.5) * 24;
+    particle.style.left = `calc(50% + ${randomOffset}px)`;
+
+    targetEl.appendChild(particle);
+
+    setTimeout(() => {
+        particle.remove();
+    }, 950);
 }
 
 function updateLiveBgm() {
@@ -105,5 +152,25 @@ function updateLiveBgm() {
     const liveBgmText = document.getElementById('liveBgmText');
     if (bgmSelect && liveBgmText) {
         liveBgmText.innerText = bgmSelect.value;
+    }
+}
+
+// FAQ 아코디언 토글
+function toggleFaq(buttonEl) {
+    const currentItem = buttonEl.closest('.faq-item');
+    const wrap = currentItem.querySelector('.faq-a-wrap');
+    const isActive = currentItem.classList.contains('active');
+
+    // 다른 열려있는 항목 모두 닫기
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.classList.remove('active');
+        const aWrap = item.querySelector('.faq-a-wrap');
+        if (aWrap) aWrap.style.maxHeight = null;
+    });
+
+    // 이미 열려있던 항목을 누른 게 아니라면 열기
+    if (!isActive) {
+        currentItem.classList.add('active');
+        wrap.style.maxHeight = wrap.scrollHeight + 'px';
     }
 }
