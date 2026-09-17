@@ -22,30 +22,71 @@
         <!-- 메인 헤더 -->
         <header class="admin-header-box">
             <span class="header-tag">FAMILY ARCHIVE ADMIN</span>
-            <h1 class="admin-main-title"><span id="adminPetName">코코</span>의 안식처 관리</h1>
+            <h1 class="admin-main-title"><span id="adminPetName">초코</span>의 안식처 관리</h1>
             <p class="admin-main-desc">소중한 추억 조각과 발자취, 전해온 편지를 한눈에 관리합니다.</p>
         </header>
 
-        <!-- ⭐️ 3단 대분류 메인 탭 -->
+        <!-- ⭐️ 4단 대분류 메인 탭 (순서 변경 적용) -->
         <nav class="admin-main-nav">
-            <button type="button" class="main-tab-btn active" onclick="switchMainTab('media')">
-                <span class="tab-label">📷 추억 검수</span>
+            <button type="button" class="main-tab-btn active" onclick="switchMainTab('direct')">
+                <span class="tab-label">🖼️ 바로 업로드</span>
+                <span id="badgeDirectMain" class="main-tab-badge">0</span>
+            </button>
+            <button type="button" class="main-tab-btn" onclick="switchMainTab('media')">
+                <span class="tab-label">📷 지인 사진 관리</span>
                 <span id="badgePendingMain" class="main-tab-badge">0</span>
             </button>
             <button type="button" class="main-tab-btn" onclick="switchMainTab('timeline')">
-                <span class="tab-label">🐾 발자취 타임라인</span>
+                <span class="tab-label">🐾 발자취 관리</span>
                 <span id="badgeTimelineMain" class="main-tab-badge">0</span>
             </button>
             <button type="button" class="main-tab-btn" onclick="switchMainTab('postbox')">
-                <span class="tab-label">📮 무지개 우체통</span>
+                <span class="tab-label">📮 우체통 관리</span>
                 <span id="badgePostboxMain" class="main-tab-badge">0</span>
             </button>
         </nav>
 
-        <!-- ⭐️ 탭 1: 사진·영상 검수 패널 -->
-        <section id="panel-media" class="admin-tab-panel active">
+        <!-- ⭐️ 탭 1: 바로 업로드 (보호자 직접 등록 및 전시 관리) -->
+        <section id="panel-direct" class="admin-tab-panel active">
             <div class="panel-desc-box">
-                <p class="panel-sub-desc">지인분들이 보내주신 사진과 영상입니다. 선택하여 승인한 사진만 갤러리에 공개됩니다.</p>
+                <p class="panel-sub-desc">보호자님이 직접 올리시는 사진과 영상은 검수 절차 없이 추모관 갤러리에 즉시 공개됩니다.</p>
+            </div>
+
+            <!-- 업로드 드롭존 & 인풋 -->
+            <div class="direct-upload-box">
+                <div class="upload-dropzone" onclick="document.getElementById('directFileInput').click()">
+                    <input type="file" id="directFileInput" accept="image/*,video/*" multiple
+                        onchange="handleFileSelect(this)" style="display: none;">
+                    <div class="dropzone-icon">📷</div>
+                    <div class="dropzone-text">클릭하여 사진이나 영상을 선택하세요</div>
+                    <div class="dropzone-sub">여러 장 동시 선택 가능 · 장당 자동 최적화</div>
+                </div>
+
+                <!-- 선택된 파일 썸네일 미리보기 영역 -->
+                <div id="selectedPreviewGrid" class="selected-preview-grid" style="display: none;"></div>
+
+                <!-- 사연 입력 및 즉시 등록 바 -->
+                <div class="direct-input-bar">
+                    <input type="text" id="directStoryInput" class="timeline-input text-input"
+                        placeholder="함께 남길 한 줄 이야기 (선택)">
+                    <button type="button" id="btnDirectSubmit" class="btn-timeline-add"
+                        onclick="handleDirectUpload()">즉시 등록</button>
+                </div>
+            </div>
+
+            <!-- 현재 전시 중인 미디어 목록 헤더 -->
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin: 28px 0 12px; padding: 0 4px;">
+                <span class="postbox-total-text">현재 갤러리 전시 중인 미디어 <strong id="directGalleryCount">0</strong>개</span>
+            </div>
+            <!-- 전시 그리드 목록 -->
+            <div id="directGalleryList"></div>
+        </section>
+
+        <!-- ⭐️ 탭 2: 사진 모으기 관리 (지인 취합본 검수) -->
+        <section id="panel-media" class="admin-tab-panel">
+            <div class="panel-desc-box">
+                <p class="panel-sub-desc">지인분들이 취합 링크로 보내주신 사진과 영상입니다. 선택하여 승인한 사진만 갤러리에 공개됩니다.</p>
             </div>
 
             <!-- 하위 상태 필터 탭 -->
@@ -65,7 +106,7 @@
             <div id="memoryCardList" class="memory-card-list"></div>
         </section>
 
-        <!-- ⭐️ 탭 2: 발자취 타임라인 패널 -->
+        <!-- ⭐️ 탭 3: 발자취 관리 패널 -->
         <section id="panel-timeline" class="admin-tab-panel">
             <div class="panel-desc-box">
                 <p class="panel-sub-desc">아이와 함께 걸어온 소중한 날들을 시간 순서대로 기록해보세요.</p>
@@ -85,7 +126,7 @@
             <div class="admin-timeline-list" id="adminTimelineList"></div>
         </section>
 
-        <!-- ⭐️ 탭 3: 무지개 우체통 패널 -->
+        <!-- ⭐️ 탭 4: 우체통 관리 패널 -->
         <section id="panel-postbox" class="admin-tab-panel">
             <div class="panel-desc-box">
                 <p class="panel-sub-desc">지인과 가족분들이 남겨주신 편지를 확인하고 정리할 수 있습니다.</p>
@@ -100,7 +141,7 @@
         </section>
 
         <div class="admin-footer-links">
-            <a href="sample.html" class="link-btn">← 추모관 메인으로 이동</a>
+            <a href="memorial.html" class="link-btn">← 추모관 메인으로 이동</a>
         </div>
     </div>
 

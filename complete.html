@@ -71,9 +71,7 @@
                 </div>
             </div>
 
-            <!-- [2그룹] 목적별 링크 분리 (지인 전달용 / 보호자 보관용) -->
-
-            <!-- A. 지인에게 전달할 링크 묶음 -->
+            <!-- [2그룹] 목적별 링크 분리 (지인 전달용) -->
             <div class="complete-group-box">
                 <div class="group-section-title">
                     <span class="section-title-icon">📢</span>
@@ -115,7 +113,7 @@
                 </div>
             </div>
 
-            <!-- B. 보호자 전용 시크릿 관리 링크 묶음 (완전 분리) -->
+            <!-- [3그룹] 보호자 전용 시크릿 링크 묶음 -->
             <div class="complete-group-box box-admin-secret">
                 <div class="group-section-title title-admin">
                     <span class="section-title-icon">🔒</span>
@@ -128,7 +126,7 @@
                         <span class="link-badge badge-admin">관리자 모드</span>
                         <strong>추모관 설정 링크</strong>
                     </div>
-                    <p class="link-desc">대표 사진 변경, 선물 목록 수정 및 사진을 검토하는 관리 전용 주소입니다.</p>
+                    <p class="link-desc">대표 사진, 선물 목록 편집 및 수집된 사진을 검토하는 관리자 모드 주소입니다.</p>
                     <div class="link-input-group">
                         <input type="text" id="adminSecretLinkInput" class="form-input" readonly>
                         <button type="button" class="btn btn-secondary btn-copy"
@@ -139,7 +137,7 @@
                     </div>
                 </div>
 
-                <!-- 알림톡 발송 안내 -->
+                <!-- 알림톡 안내 배너 -->
                 <div class="group-inner-banner sms-banner" style="margin-top: 14px;">
                     <span class="banner-icon">💬</span>
                     <p>
@@ -149,6 +147,14 @@
                     </p>
                 </div>
             </div>
+
+            <div class="complete-actions">
+                <a href="sample.html" id="viewMemorialBtn" class="btn btn-primary btn-full">추모관 둘러보기 →</a>
+                <a href="admin.html" id="adminManageBtn" class="btn btn-secondary btn-full btn-admin">⚙️ 추모관 관리자 화면으로
+                    가기</a>
+            </div>
+
+        </div>
     </main>
 
     <script src="complete.js"></script>

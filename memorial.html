@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기억의 숲 | MEMORIAL</title>
+
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+KR:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="sample.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕊️</text></svg>">
+</head>
+
+<body>
+
+    <header class="sample-nav">
+        <div class="sample-nav-inner">
+            <a href="index.html" class="btn-back">← 메인으로 돌아가기</a>
+            <div class="bgm-controller">
+                <span class="bgm-icon">🎵</span>
+                <select class="bgm-select" id="bgmSelect" onchange="switchBgm()">
+                    <option value="" disabled selected>배경음악 선택</option>
+                    <option value="./audio/bgm-piano.mp3">01. 별빛 아래 너와 나 (피아노)</option>
+                    <option value="./audio/bgm-guitar.mp3">02. 따뜻한 봄날의 산책 (기타)</option>
+                    <option value="./audio/bgm-musicbox.mp3">03. 영원한 안식처 (오르골)</option>
+                    <option value="none">04. 배경음악 없음 (조용히 추모)</option>
+                </select>
+                <button type="button" class="btn-bgm-toggle" id="bgmToggleBtn" onclick="toggleBgmPlay()">재생</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="sample-container">
+        <!-- 인트로 섹션 -->
+        <section class="memorial-intro">
+            <span class="intro-badge">IN LOVING MEMORY</span>
+            <div class="intro-avatar-frame">
+                <img id="introAvatar" src="" alt="아이 사진">
+            </div>
+            <h1 class="intro-name" id="memorialTitleName"></h1>
+            <p class="intro-dates" id="memorialDates"></p>
+
+            <div class="interactive-row" id="interactiveRow">
+                <!-- JS 동적 주입 -->
+            </div>
+
+            <div class="intro-quote" id="memorialQuote"></div>
+        </section>
+
+        <!-- 발자취 타임라인 -->
+        <section class="sub-section">
+            <div class="sub-header">
+                <span class="sub-tag">TIMELINE</span>
+                <h2 class="sub-title">발자취 타임라인</h2>
+            </div>
+            <div class="timeline-list" id="memorialTimelineList"></div>
+        </section>
+
+        <!-- 갤러리 섹션 -->
+        <section class="sub-section" id="gallerySection">
+            <div class="sub-header">
+                <span class="sub-tag">PHOTO GALLERY</span>
+                <h2 class="sub-title">기억의 갤러리</h2>
+            </div>
+            <div class="gallery-grid" id="galleryGrid"></div>
+        </section>
+
+        <!-- 이미지 모달 -->
+        <div id="imageModal" class="image-modal" onclick="closeImageModal(event)">
+            <div class="image-modal-content" onclick="event.stopPropagation()">
+                <button type="button" class="btn-modal-close" onclick="closeImageModalDirect()">✕</button>
+                <div class="image-box">
+                    <img id="modalFullImage" src="" alt="확대 이미지">
+                </div>
+                <p id="modalImageCaption" class="modal-image-caption"></p>
+            </div>
+        </div>
+
+        <!-- 비디오 섹션 (등록된 영상이 있을 때만 활성화) -->
+        <section class="sub-section" id="videoSection" style="display: none;">
+            <div class="sub-header">
+                <span class="sub-tag">VIDEO MEMORY</span>
+                <h2 class="sub-title">눈부셨던 날의 영상</h2>
+            </div>
+            <div class="video-grid" id="videoGrid"></div>
+        </section>
+
+        <!-- 사진/영상 모으기 배너 -->
+        <div class="gallery-archive-cta">
+            <div class="archive-cta-content">
+                <span class="archive-cta-tag">MEMORY ARCHIVE</span>
+                <h3 class="archive-cta-title"><span id="ctaPetName">아이</span>와 함께했던 순간이 남아있으신가요?</h3>
+                <p class="archive-cta-desc">
+                    핸드폰 속에 간직해둔 작은 사진이나 짧은 영상 한 편도 좋습니다.<br>
+                    가족들의 추모 공간에 따뜻한 조각으로 소중히 전시됩니다.
+                </p>
+            </div>
+            <a href="#" id="galleryUploadBtn" class="btn-archive-cta">
+                <svg viewBox="0 0 20 20" fill="none" class="cta-btn-icon">
+                    <path d="M10 4V16M4 10H16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                </svg>
+                사진·영상 보내기
+            </a>
+        </div>
+
+        <!-- 비디오 모달 -->
+        <div id="videoModal" class="video-modal" onclick="closeVideoModal(event)">
+            <div class="video-modal-content" onclick="event.stopPropagation()">
+                <button type="button" class="btn-modal-close" onclick="forceCloseModal()">✕</button>
+                <div class="modal-player-box">
+                    <video id="modalVideoPlayer" controls playsinline controlsList="nodownload"></video>
+                </div>
+                <div class="modal-video-meta">
+                    <span id="modalVideoDate" class="modal-date"></span>
+                    <p id="modalVideoDesc" class="modal-desc"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 우체통 섹션 -->
+        <section class="sub-section">
+            <div class="sub-header">
+                <span class="sub-tag">POSTBOX</span>
+                <h2 class="sub-title">무지개 우체통</h2>
+            </div>
+
+            <form class="letter-form" onsubmit="handleLetterSubmit(event)">
+                <div class="letter-input-row">
+                    <input type="text" id="letterName" class="letter-input" placeholder="보내는 분 이름" required>
+                    <input type="text" id="letterRelation" class="letter-input" placeholder="관계 (예: 누나, 삼촌)" required>
+                </div>
+                <textarea id="letterMsg" class="letter-textarea" placeholder="아이에게 전하고 싶은 따뜻한 한마디를 남겨주세요."
+                    maxlength="1000" required></textarea>
+                <button type="submit" class="btn-letter-submit">편지 남기기</button>
+            </form>
+
+            <div class="letter-list" id="letterList"></div>
+        </section>
+
+        <!-- 공유 버튼 -->
+        <div class="share-container">
+            <button type="button" class="btn-share-link" onclick="copyMemorialLink()">
+                🔗 추모관 링크 공유하기
+            </button>
+        </div>
+
+        <div id="toastMessage" class="toast-popup">추모관 링크가 클립보드에 복사되었습니다.</div>
+    </main>
+
+    <!-- 우측 하단 고정 관리자 버튼 -->
+    <a href="#" id="adminFloatingBtn" class="btn-admin-floating" style="display: none;">
+        ⚙️ 관리자 모드
+    </a>
+
+    <script src="memorial.js"></script>
+</body>
+
+</html>

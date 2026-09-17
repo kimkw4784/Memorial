@@ -37,18 +37,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const slug = order.roomSlug || '4K8F2G';
         const adminKey = order.adminKey || 'sec_' + Math.random().toString(36).substring(2, 10);
 
-        // 3개 링크 매핑
-        document.getElementById('memorialLinkInput').value = `https://memorial.me/${slug}`;
+        // ⭐️ sample.html 대신 memorial.html 연결
+        document.getElementById('memorialLinkInput').value = `https://memorial.me/memorial.html?room=${slug}`;
         document.getElementById('uploadLinkInput').value = `https://memorial.me/upload.html?room=${slug}`;
 
         const adminLinkInput = document.getElementById('adminSecretLinkInput');
         if (adminLinkInput) {
-            adminLinkInput.value = `https://memorial.me/${slug}?key=${adminKey}`;
+            adminLinkInput.value = `https://memorial.me/memorial.html?room=${slug}&key=${adminKey}`;
         }
 
         const viewBtn = document.getElementById('viewMemorialBtn');
         const adminBtn = document.getElementById('adminManageBtn');
-        if (viewBtn) viewBtn.href = `sample.html?room=${slug}`;
+
+        if (viewBtn) viewBtn.href = `memorial.html?room=${slug}`;
         if (adminBtn) adminBtn.href = `admin.html?room=${slug}&key=${adminKey}`;
 
         if (order.merchantUid) {
